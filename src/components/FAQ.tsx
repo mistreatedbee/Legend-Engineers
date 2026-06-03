@@ -3,24 +3,36 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
 const faqs = [
 {
-  q: 'What is a geotechnical investigation?',
-  a: 'A geotechnical investigation tests soil and rock properties on a site to determine its suitability for construction. It is essential for designing safe and cost-effective foundations.'
+  q: 'What is a geotechnical investigation and why do I need one?',
+  a: 'A geotechnical investigation analyses subsurface soil and rock conditions at a proposed development site. It is essential for designing safe, cost-effective foundations — preventing costly failures and identifying risk zones before construction begins. Most municipalities and the NHBRC require it before any building approval.'
 },
 {
-  q: 'How long does testing take?',
-  a: 'Timeline depends on scope. Standard soil testing and reporting typically takes one to two weeks; complex dolomite studies or deep drilling can take several weeks.'
+  q: 'How long does a geotechnical investigation take?',
+  a: 'Typically 1–4 weeks depending on the site size, scope and complexity. A standard single-storey residential investigation can be completed in 1–2 weeks. Larger or more complex sites — such as dolomite studies or deep investigations — may take 3–4 weeks.'
 },
 {
-  q: 'What areas do you service?',
-  a: 'We service all nine South African provinces — from remote mining sites and rural developments to major metropolitan centres.'
+  q: 'Is a geotechnical report required by law?',
+  a: 'Yes. The NHBRC and most South African municipalities require a geotechnical investigation report before issuing building approvals. It is also a prerequisite for NHBRC enrollment, which protects home buyers under the Housing Consumer Protection Act.'
 },
 {
-  q: 'Do you provide NHBRC reports?',
-  a: 'Yes — we are fully accredited to provide NHBRC enrolment reports, site classifications, and foundation designs required for residential developments.'
+  q: 'Do you operate outside Mpumalanga?',
+  a: 'Yes — we operate nationally. While our headquarters are in Witbank (eMalahleni), Mpumalanga, we have successfully completed projects in Gauteng (Johannesburg, Alberton, Randburg), Limpopo (Tzaneen), Free State (Mangaung) and KwaZulu-Natal.'
 },
 {
-  q: 'Can you assist with large commercial developments?',
-  a: 'Absolutely. We have extensive experience on large-scale commercial, industrial and municipal infrastructure projects — from feasibility through construction monitoring.'
+  q: 'What CIDB grade are you registered at?',
+  a: 'Both Enerdge Group and Legend Engineers are registered at CIDB Grade 3CE (Civil Engineering) and 3ME (Mechanical Engineering) — formally qualifying us for government, SOE and Eskom-level project procurement.'
+},
+{
+  q: 'Are you NHBRC registered?',
+  a: 'Yes. Enerdge Group (PTY) LTD is NHBRC registered, enabling us to submit geotechnical investigation reports for NHBRC enrollment and to support home builders through the full compliance process.'
+},
+{
+  q: 'Are you B-BBEE compliant?',
+  a: 'Yes. Both Enerdge Group and Legend Engineers are 100% Black Owned small-sized enterprises, fully compliant for preferential procurement across government departments, SOEs and private sector clients with B-BBEE requirements.'
+},
+{
+  q: 'Do you work on Eskom projects?',
+  a: 'Yes — we are a proven approved vendor at multiple Eskom facilities. Our track record includes civil works, mechanical piping, fire suppression systems and supply and delivery projects at Kusile, Matla, Camden and Grootvlei power stations.'
 }];
 
 export function FAQ() {

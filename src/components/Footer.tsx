@@ -4,7 +4,6 @@ export function Footer() {
     <footer
       id="contact"
       className="relative bg-cream dark:bg-dark-bg text-ink dark:text-cream pt-32 md:pt-40 pb-12 border-t border-ink/10 dark:border-white/10">
-      
       <div className="max-w-[1600px] mx-auto px-6 md:px-12">
         {/* Massive wordmark */}
         <div className="grid grid-cols-12 gap-6 md:gap-10 mb-24">
@@ -34,7 +33,6 @@ export function Footer() {
             <a
               href="tel:+27738815050"
               className="font-display text-4xl md:text-6xl text-ink dark:text-cream font-light hover:italic hover:text-brand-700 dark:hover:text-brand-400 transition-all block">
-              
               +27 73 881 5050
             </a>
           </div>
@@ -44,29 +42,45 @@ export function Footer() {
             </div>
             <a
               href="mailto:enerdgegroup@gmail.com"
-              className="font-display text-3xl md:text-5xl text-ink dark:text-cream font-light hover:italic hover:text-brand-700 dark:hover:text-brand-400 transition-all block break-all">
-              
+              className="font-display text-2xl md:text-4xl text-ink dark:text-cream font-light hover:italic hover:text-brand-700 dark:hover:text-brand-400 transition-all block break-all mb-3">
               enerdgegroup@gmail.com
+            </a>
+            <a
+              href="mailto:egengineers88@gmail.com"
+              className="font-display text-2xl md:text-4xl text-ink dark:text-cream font-light hover:italic hover:text-brand-700 dark:hover:text-brand-400 transition-all block break-all">
+              egengineers88@gmail.com
             </a>
           </div>
           <div className="col-span-12 md:col-span-6">
             <div className="eyebrow text-ink/50 dark:text-white/50 mb-4">
-              Head Office
+              Enerdge Group — Head Office
             </div>
-            <p className="font-display text-2xl md:text-3xl text-ink/80 dark:text-white/80 font-light italic leading-snug">
-              Johannesburg, South Africa
+            <p className="font-display text-xl md:text-2xl text-ink/80 dark:text-white/80 font-light italic leading-snug">
+              Aldrin St. #2, Reyno Manor
               <br />
-              Serving all nine provinces.
+              Witbank (eMalahleni), 1035
+              <br />
+              Mpumalanga, South Africa
             </p>
           </div>
           <div className="col-span-12 md:col-span-6">
             <div className="eyebrow text-ink/50 dark:text-white/50 mb-4">
-              Hours
+              Legend Engineers — Office
             </div>
-            <p className="font-display text-2xl md:text-3xl text-ink/80 dark:text-white/80 font-light italic leading-snug">
-              Monday — Friday
+            <p className="font-display text-xl md:text-2xl text-ink/80 dark:text-white/80 font-light italic leading-snug mb-6">
+              Unit 51 Village 4, Ridgeview Estate
               <br />
-              08:00 — 17:00 SAST
+              Mpumalanga, 1035
+              <br />
+              South Africa
+            </p>
+            <div className="eyebrow text-ink/50 dark:text-white/50 mb-2">
+              Operating Hours
+            </div>
+            <p className="font-display text-xl md:text-2xl text-ink/80 dark:text-white/80 font-light italic leading-snug">
+              Monday — Friday: 07:00 — 17:00
+              <br />
+              Saturday: 08:00 — 13:00 SAST
             </p>
           </div>
         </div>
@@ -83,7 +97,6 @@ export function Footer() {
                   <a
                   href={`#${link.toLowerCase()}`}
                   className="font-display text-xl text-ink/80 dark:text-white/80 font-light hover:italic hover:text-brand-700 dark:hover:text-brand-400 transition-all">
-                  
                     {link}
                   </a>
                 </li>
@@ -98,13 +111,12 @@ export function Footer() {
               {[
               ['Book Investigation', '#booking'],
               ['Request Quote', '#quote'],
-              ['WhatsApp', 'https://wa.me/27738815050']].
+              ['WhatsApp Us', 'https://wa.me/27738815050']].
               map(([label, href]) =>
               <li key={label}>
                   <a
                   href={href}
                   className="font-display text-xl text-ink/80 dark:text-white/80 font-light hover:italic hover:text-brand-700 dark:hover:text-brand-400 transition-all">
-                  
                     {label}
                   </a>
                 </li>
@@ -116,13 +128,15 @@ export function Footer() {
               Accredited
             </div>
             <p className="text-ink/60 dark:text-white/60 font-light leading-relaxed">
-              CIDB Registered
+              CIDB Grade 3CE & 3ME
               <br />
-              NHBRC Accredited
+              NHBRC Registered
               <br />
               ECSA Affiliated
               <br />
-              ISO 9001 : 2015
+              B-BBEE — 100% Black Owned
+              <br />
+              VAT Registered
             </p>
           </div>
           <div className="col-span-12 md:col-span-3">
@@ -135,7 +149,6 @@ export function Footer() {
                   <a
                   href="#"
                   className="font-display text-xl text-ink/80 dark:text-white/80 font-light hover:italic hover:text-brand-700 dark:hover:text-brand-400 transition-all">
-                  
                     {net}
                   </a>
                 </li>
@@ -154,25 +167,21 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-ink/15 dark:border-white/15 flex flex-col md:flex-row items-center justify-between gap-4">
           <span className="eyebrow text-ink/40 dark:text-white/40">
-            © {new Date().getFullYear()} Legend Engineers — A Division of
-            Enerdge Group
+            © {new Date().getFullYear()} Enerdge Group (PTY) LTD & Legend Engineers (PTY) LTD
           </span>
           <div className="flex gap-8">
             <a
               href="#"
               className="eyebrow text-ink/40 dark:text-white/40 hover:text-brand-700 dark:hover:text-brand-400">
-              
               Privacy
             </a>
             <a
               href="#"
               className="eyebrow text-ink/40 dark:text-white/40 hover:text-brand-700 dark:hover:text-brand-400">
-              
               Terms
             </a>
           </div>
         </div>
       </div>
     </footer>);
-
 }

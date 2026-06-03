@@ -3,33 +3,33 @@ import { motion } from 'framer-motion';
 const reasons = [
 {
   num: '01',
-  title: 'Expert Team',
-  desc: 'Qualified professionals with deep industry expertise and technical knowledge.'
+  title: 'CIDB Graded',
+  desc: 'Grade 3CE & 3ME registered — formally qualified for government, SOE and Eskom-level procurement.'
 },
 {
   num: '02',
-  title: 'Fast Turnaround',
-  desc: 'Quick investigations and reporting to keep your project on schedule.'
+  title: 'NHBRC Registered',
+  desc: 'Trusted for residential development with full NHBRC enrollment support for home builders.'
 },
 {
   num: '03',
-  title: 'Accredited Services',
-  desc: 'Fully CIDB and NHBRC compliant for complete peace of mind.'
+  title: 'Eskom Vendor',
+  desc: 'Proven approved vendor at Kusile, Matla, Camden and Grootvlei power stations with a documented delivery track record.'
 },
 {
   num: '04',
-  title: 'Advanced Equipment',
-  desc: 'Utilising the latest testing, laboratory and surveying instruments.'
+  title: '100% Black Owned',
+  desc: 'B-BBEE compliant small-sized enterprise — qualifying for preferential procurement across government and SOE clients.'
 },
 {
   num: '05',
-  title: 'Nationwide Coverage',
-  desc: 'Serving projects throughout South Africa, regardless of location.'
+  title: 'Multi-disciplinary',
+  desc: 'Nine engineering disciplines under one company — geotechnical, civil, mechanical, electrical, building and more.'
 },
 {
   num: '06',
-  title: 'Professional Reporting',
-  desc: 'Comprehensive, considered reports with expert recommendations.'
+  title: 'SANS & QMS',
+  desc: 'All works comply with SANS regulations and our Quality Management System, ensuring consistent, auditable delivery.'
 }];
 
 export function WhyChooseUs() {

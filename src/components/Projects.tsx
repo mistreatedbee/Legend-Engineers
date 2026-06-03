@@ -1,67 +1,69 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
-const categories = ['All', 'Geotechnical', 'Civil', 'Mechanical', 'Survey'];
+
+const categories = ['All', 'Geotechnical', 'Civil', 'Mechanical'];
+
 const projects = [
 {
   id: 1,
-  title: 'Commercial Development Foundation',
-  category: 'Geotechnical',
-  location: 'Sandton, Gauteng',
-  client: 'Apex Properties',
-  services: 'Dolomite Study, Foundation Design',
-  image: '/photo8.jpeg',
-  size: 'large'
+  title: 'Coal Stock Wash Bay — Civil Works',
+  category: 'Civil',
+  location: 'Kusile Power Station, Mpumalanga',
+  client: 'Eskom Holdings',
+  services: 'Civil Works & Construction',
+  value: 'R 925,718',
+  image: '/photo8.jpeg'
 },
 {
   id: 2,
-  title: 'N4 Highway Expansion',
-  category: 'Civil',
-  location: 'Mpumalanga',
-  client: 'SANRAL',
-  services: 'Road Pavement Design, Stormwater',
-  image: '/photo4.jpeg',
-  size: 'tall'
+  title: 'Fire Pipe Replacement — 9B Conveyor',
+  category: 'Mechanical',
+  location: 'Matla Power Station, Mpumalanga',
+  client: 'Eskom Holdings',
+  services: 'Mechanical Engineering & Piping',
+  value: 'R 708,714',
+  image: '/photo4.jpeg'
 },
 {
   id: 3,
-  title: 'Mining Plant Upgrade',
-  category: 'Mechanical',
-  location: 'Rustenburg, North West',
-  client: 'Platinum Resources',
-  services: 'Equipment Assessment',
-  image: '/photo18.jpeg',
-  size: 'standard'
+  title: 'Excavations, Concrete & Pipeworks',
+  category: 'Civil',
+  location: 'Kusile Power Station, Mpumalanga',
+  client: 'Eskom Holdings',
+  services: 'Civil Works & Pipelines',
+  value: 'R 855,000',
+  image: '/photo18.jpeg'
 },
 {
   id: 4,
-  title: 'Residential Estate Topography',
-  category: 'Survey',
-  location: 'Ballito, KZN',
-  client: 'Coastal Developments',
-  services: 'Site Survey, Centre-Line Survey',
-  image: '/photo3.jpeg',
-  size: 'standard'
+  title: 'Basement & Underground Parking Investigation',
+  category: 'Geotechnical',
+  location: 'Reyno Ridge, Mpumalanga',
+  client: 'Yakhilizwe Trading',
+  services: 'Geotechnical Investigation (1372 m²)',
+  value: null,
+  image: '/photo3.jpeg'
 },
 {
   id: 5,
-  title: 'Municipal Water Infrastructure',
-  category: 'Civil',
-  location: 'Polokwane, Limpopo',
-  client: 'Local Municipality',
-  services: 'Infrastructure Design, Monitoring',
-  image: '/photo2.jpeg',
-  size: 'large'
+  title: 'Filling Stations Investigation — Naas & Tonga',
+  category: 'Geotechnical',
+  location: 'Mpumalanga',
+  client: 'Lumka Developments',
+  services: 'Geotechnical Investigations',
+  value: 'R 105,500',
+  image: '/photo2.jpeg'
 },
 {
   id: 6,
-  title: 'High-Rise Soil Investigation',
+  title: 'Multi-Structure Geotechnical Investigation',
   category: 'Geotechnical',
-  location: 'Cape Town CBD',
-  client: 'Urban Construct',
-  services: 'Deep Soil Testing',
-  image: '/photo12.jpeg',
-  size: 'tall'
+  location: 'Klarinet, Mpumalanga',
+  client: 'Seriti Resources',
+  services: 'Geotechnical Investigation (1200 m²)',
+  value: null,
+  image: '/photo12.jpeg'
 }];
 
 export function Projects() {
@@ -70,11 +72,11 @@ export function Projects() {
   activeCategory === 'All' ?
   projects :
   projects.filter((p) => p.category === activeCategory);
+
   return (
     <section
       id="projects"
       className="relative bg-cream dark:bg-dark-bg py-32 md:py-40">
-      
       <div className="max-w-[1600px] mx-auto px-6 md:px-12">
         {/* Header */}
         <div className="grid grid-cols-12 gap-6 md:gap-10 mb-16 md:mb-20">
@@ -102,7 +104,6 @@ export function Projects() {
             key={cat}
             onClick={() => setActiveCategory(cat)}
             className={`font-mono text-xs uppercase tracking-[0.18em] pb-2 border-b transition-colors ${activeCategory === cat ? 'text-brand-700 dark:text-brand-400 border-brand-700 dark:border-brand-400' : 'text-ink/50 dark:text-white/50 border-transparent hover:text-ink dark:hover:text-cream'}`}>
-            
               {cat}
               {activeCategory === cat &&
             <span className="ml-2 text-ink/30 dark:text-white/30">
@@ -117,7 +118,6 @@ export function Projects() {
         <motion.div layout className="grid grid-cols-12 gap-6 md:gap-10">
           <AnimatePresence mode="popLayout">
             {filtered.map((project, idx) => {
-              // Asymmetric col-span pattern
               const layouts = [
               'col-span-12 md:col-span-7',
               'col-span-12 md:col-span-5 md:mt-32',
@@ -138,33 +138,17 @@ export function Projects() {
                 <motion.article
                   key={project.id}
                   layout
-                  initial={{
-                    opacity: 0,
-                    y: 40
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0
-                  }}
-                  exit={{
-                    opacity: 0,
-                    y: 20
-                  }}
-                  transition={{
-                    duration: 0.6,
-                    delay: idx * 0.05
-                  }}
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.6, delay: idx * 0.05 }}
                   className={layouts[idx % layouts.length]}>
-                  
                   <div className="group cursor-pointer">
-                    <div
-                      className={`relative overflow-hidden ${aspectMap[idx % aspectMap.length]} mb-6 shadow-xl`}>
-                      
+                    <div className={`relative overflow-hidden ${aspectMap[idx % aspectMap.length]} mb-6 shadow-xl`}>
                       <img
                         src={project.image}
                         alt={project.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
-                      
                       <span className="absolute top-5 left-5 eyebrow text-cream/90 bg-ink/40 backdrop-blur-md px-3 py-1.5">
                         {project.category}
                       </span>
@@ -181,19 +165,21 @@ export function Projects() {
                         <p className="text-ink/60 dark:text-white/60 text-sm mt-2 font-light">
                           {project.client} — {project.services}
                         </p>
+                        {project.value && (
+                          <p className="eyebrow text-brand-700 dark:text-brand-400 mt-2">
+                            {project.value}
+                          </p>
+                        )}
                       </div>
                       <ArrowUpRight
                         size={24}
                         className="text-ink/40 dark:text-white/40 group-hover:text-brand-700 dark:group-hover:text-brand-400 group-hover:rotate-45 transition-all duration-500 flex-shrink-0 mt-2" />
-                      
                     </div>
                   </div>
                 </motion.article>);
-
             })}
           </AnimatePresence>
         </motion.div>
       </div>
     </section>);
-
 }

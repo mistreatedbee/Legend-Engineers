@@ -7,7 +7,7 @@ export function FloatingWidgets() {
     <>
       {/* WhatsApp — refined editorial pill */}
       <a
-        href="https://wa.me/27738815050?text=Hello%20Legend%20Engineers,%20I%20would%20like%20assistance%20with%20an%20engineering%20investigation."
+        href="https://wa.me/27738815050?text=Hi%20Enerdge%20Group%20%2F%20Legend%20Engineers%2C%20I%20found%20you%20on%20your%20website%20and%20would%20like%20to%20enquire%20about%20an%20engineering%20service."
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 left-6 z-40 group bg-ink dark:bg-cream text-cream dark:text-ink hover:bg-brand-700 dark:hover:bg-brand-700 dark:hover:text-cream transition-colors flex items-center gap-3 px-5 py-3 shadow-2xl"

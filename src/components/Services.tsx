@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
+
 const services = [
 {
   num: '01',
@@ -8,15 +9,16 @@ const services = [
   title: 'Geotechnical',
   italic: 'Engineering',
   videoSrc: '/video2.mp4',
-  desc: 'Comprehensive soil and rock investigations for foundation design, site classification, and dolomite assessments.',
+  desc: 'Comprehensive soil and rock investigations providing authoritative reports that guide safe, cost-effective foundation decisions — required for NHBRC enrollment and municipal approvals.',
   features: [
-  'Geotechnical Investigations',
-  'Dolomite Studies',
+  'Geotechnical Investigations & Site Profiling',
+  'Dolomite Studies (SANS 1936)',
+  'Geohydrological Assessments',
   'NHBRC Enrolments',
-  'Foundation Investigations',
-  'Site Classification',
+  'Foundation Design Recommendations',
+  'DPSH, SPT & DCP In-Situ Testing',
+  'Nuclear Density Compaction Tests',
   'Stability Assessments']
-
 },
 {
   num: '02',
@@ -24,15 +26,14 @@ const services = [
   title: 'Civil',
   italic: 'Engineering',
   videoSrc: '/video3.mp4',
-  desc: 'Infrastructure design and development for commercial, residential, and municipal projects across the country.',
+  desc: 'Bulk civil works from earthworks to finished surfaces — at power stations, industrial facilities, residential developments and public road infrastructure. All works SANS & QMS compliant.',
   features: [
-  'Road Pavement Design',
-  'Stormwater Design',
-  'Site Development Plans',
-  'Infrastructure Design',
-  'Municipal Engineering',
-  'Construction Monitoring']
-
+  'Bulk Concrete Works',
+  'Underground Piping: Stormwater, Drainage, Fire & Municipal Water',
+  'Bulk Earthworks & Road Construction (Asphalt, Single/Double Seal)',
+  'Road Drainage: V-drain, Earth Drain, Sub-soil Drain',
+  'Concrete Edge Beams & Road Signage',
+  'Road Maintenance: Patching, Shoulder Repairs, Edge Break']
 },
 {
   num: '03',
@@ -40,14 +41,14 @@ const services = [
   title: 'Mechanical',
   italic: 'Engineering',
   image: '/photo18.jpeg',
-  desc: 'Industrial mechanical design, equipment assessments and plant engineering for mining and manufacturing.',
+  desc: 'Industrial piping installation, specialised welding and pressure vessel services. Proven at Eskom power stations across a wide range of pipe materials and welding grades.',
   features: [
-  'Mechanical Design',
-  'Equipment Assessments',
-  'Plant Engineering',
-  'Industrial Solutions',
+  'Piping: Galvanised, Stainless Steel, Copper, HDPE, PVC, Screw',
+  'Welding: Carbon Steel, Stainless Steel, Chrome-Moly, Duplex Grade',
+  'Specialised Vessel & Tubing Welding',
+  'Vessel Pressure Testing & Certification',
+  'Plant Engineering & Equipment Assessments',
   'Maintenance Consulting']
-
 },
 {
   num: '04',
@@ -55,14 +56,14 @@ const services = [
   title: 'Laboratory',
   italic: 'Testing',
   image: '/photo11.jpeg',
-  desc: 'Accurate material testing and analysis in our state-of-the-art laboratory facilities.',
+  desc: 'Accurate material testing and analysis for engineering projects of every scale — from residential foundation samples to large-scale road construction quality assurance.',
   features: [
-  'Rock Testing',
-  'Soil Testing',
-  'Concrete Testing',
-  'Material Analysis',
-  'Quality Assurance']
-
+  'Rock Testing & Classification',
+  'Soil Testing & Profiling',
+  'Concrete Testing (Cylinders & Cubes)',
+  'Borrow Pit Material Analysis',
+  'Nuclear Density Compaction Testing',
+  'Quality Assurance Reporting']
 },
 {
   num: '05',
@@ -70,13 +71,14 @@ const services = [
   title: 'Surveying',
   italic: 'Services',
   image: '/photo3.jpeg',
-  desc: 'Precise topographical and engineering surveys using the latest equipment and methodologies.',
+  desc: 'Precise topographical and engineering surveys using the latest instruments — from borrow pit surveys to centre-line surveys for road construction projects nationwide.',
   features: [
   'Borrow Pit Surveys',
   'Centre-Line Surveys',
-  'Site Surveys',
-  'Engineering Surveys']
-
+  'Site Topographical Surveys',
+  'Engineering Surveys',
+  'Road Pavement Design Surveys',
+  'GPS & Total Station Surveys']
 },
 {
   num: '06',
@@ -84,13 +86,59 @@ const services = [
   title: 'Reporting',
   italic: '& Consulting',
   image: '/photo13.jpeg',
-  desc: 'Detailed technical reports, compliance documentation and expert recommendations you can trust.',
+  desc: 'Detailed technical reports, compliance documentation and expert recommendations. SAIEG-classified development suitability assessments with full foundation design guidance.',
   features: [
-  'Detailed Technical Reports',
-  'Professional Recommendations',
-  'Compliance Reports',
-  'Feasibility Studies']
-
+  'Comprehensive Geotechnical Investigation Reports',
+  'Site Locality & Test Pit Position Maps',
+  'Compliance & Feasibility Studies',
+  'NHBRC Submission Documentation',
+  'Foundation Type Recommendations',
+  'Professional Consulting & Advisory']
+},
+{
+  num: '07',
+  id: 'electrical',
+  title: 'Electrical',
+  italic: 'Engineering',
+  videoSrc: '/video6.mp4',
+  desc: 'Electrical engineering services for industrial, commercial and residential projects. Contact us for a detailed scope assessment tailored to your project requirements.',
+  features: [
+  'Industrial Electrical Installations',
+  'Commercial Electrical Works',
+  'Instrumentation Services',
+  'Electrical Spares Supply & Delivery',
+  'Condition Assessments',
+  'Project Consulting']
+},
+{
+  num: '08',
+  id: 'building',
+  title: 'Building',
+  italic: '& Plumbing',
+  videoSrc: '/video7.mp4',
+  desc: 'Full building construction and plumbing services for residential and commercial clients — from concrete base construction to complete suction and discharge plumbing systems.',
+  features: [
+  'General Building Construction',
+  'Plumbing Works',
+  'Suction & Discharge Pipe Installations',
+  'Water Tank Installation',
+  'Rising Damp Inspection & Remediation',
+  'Concrete Foundation Works']
+},
+{
+  num: '09',
+  id: 'supply',
+  title: 'Supply',
+  italic: '& Delivery',
+  image: '/photo6.jpeg',
+  desc: 'Comprehensive supply and delivery of engineering materials, spares and general goods to project sites and institutional clients — including Eskom power stations and government departments.',
+  features: [
+  'Mechanical, Electrical & Instrumentation Spares',
+  'Conveyor Spares & Equipment',
+  'Piping, Fittings & Tools',
+  'Office Furniture & Décor',
+  'Groceries & Provisions',
+  'Site Equipment & Materials']
 }];
 
 export function Services() {
@@ -98,7 +146,6 @@ export function Services() {
     <section
       id="services"
       className="relative bg-cream-50 dark:bg-dark-surface py-32 md:py-40">
-      
       <div className="max-w-[1600px] mx-auto px-6 md:px-12">
         {/* Header */}
         <div className="grid grid-cols-12 gap-6 md:gap-10 mb-24 md:mb-32">
@@ -110,7 +157,7 @@ export function Services() {
           </div>
           <div className="col-span-12 md:col-span-9">
             <h2 className="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-[-0.03em] text-ink dark:text-cream font-light text-balance">
-              Six disciplines,{' '}
+              Nine disciplines,{' '}
               <em className="italic text-brand-700 dark:text-brand-400 font-normal">
                 one
               </em>{' '}
@@ -126,27 +173,14 @@ export function Services() {
             return (
               <motion.article
                 key={service.id}
-                initial={{
-                  opacity: 0,
-                  y: 60
-                }}
-                whileInView={{
-                  opacity: 1,
-                  y: 0
-                }}
-                viewport={{
-                  once: true,
-                  margin: '-100px'
-                }}
-                transition={{
-                  duration: 0.8
-                }}
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.8 }}
                 className="grid grid-cols-12 gap-6 md:gap-10 items-center">
-                
-                {/* Image column */}
-                <div
-                  className={`col-span-12 lg:col-span-7 ${isEven ? 'lg:order-1' : 'lg:order-2 lg:col-start-6'}`}>
-                  
+
+                {/* Media column */}
+                <div className={`col-span-12 lg:col-span-7 ${isEven ? 'lg:order-1' : 'lg:order-2 lg:col-start-6'}`}>
                   <div className="relative aspect-[4/3] overflow-hidden shadow-2xl group">
                     {service.videoSrc ? (
                       <video
@@ -169,9 +203,7 @@ export function Services() {
                 </div>
 
                 {/* Text column */}
-                <div
-                  className={`col-span-12 lg:col-span-4 ${isEven ? 'lg:order-2 lg:col-start-9' : 'lg:order-1 lg:col-start-2'}`}>
-                  
+                <div className={`col-span-12 lg:col-span-4 ${isEven ? 'lg:order-2 lg:col-start-9' : 'lg:order-1 lg:col-start-2'}`}>
                   <span className="eyebrow text-brand-700 dark:text-brand-400 mb-6 block">
                     Discipline {service.num}
                   </span>
@@ -187,11 +219,8 @@ export function Services() {
 
                   <ul className="space-y-3 mb-10">
                     {service.features.map((feat, i) =>
-                    <li
-                      key={i}
-                      className="flex items-baseline gap-4 font-light">
-                      
-                        <span className="font-mono text-[10px] text-ink/40 dark:text-white/40 uppercase tracking-wider">
+                    <li key={i} className="flex items-baseline gap-4 font-light">
+                        <span className="font-mono text-[10px] text-ink/40 dark:text-white/40 uppercase tracking-wider flex-shrink-0">
                           0{i + 1}
                         </span>
                         <span className="text-ink/80 dark:text-white/80">
@@ -204,21 +233,17 @@ export function Services() {
                   <a
                     href="#quote"
                     className="group inline-flex items-center gap-3 text-ink dark:text-cream border-b border-ink/30 dark:border-white/30 hover:border-brand-700 dark:hover:border-brand-400 hover:text-brand-700 dark:hover:text-brand-400 transition-colors pb-2">
-                    
                     <span className="font-mono text-xs uppercase tracking-[0.18em]">
                       Request a quote
                     </span>
                     <ArrowUpRight
                       size={14}
                       className="group-hover:rotate-45 transition-transform duration-500" />
-                    
                   </a>
                 </div>
               </motion.article>);
-
           })}
         </div>
       </div>
     </section>);
-
 }

@@ -3,22 +3,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 const testimonials = [
 {
-  text: 'Legend Engineers provided an exceptionally thorough geotechnical report for our Sandton development. Their turnaround was impressive and their recommendations saved us significant foundation costs.',
-  name: 'David van der Merwe',
-  company: 'Apex Properties',
-  role: 'Development Director'
+  text: 'Legend Engineers provided an exceptionally thorough geotechnical investigation report for our Kusile development project. Their turnaround was impressive and their foundation recommendations saved us significant costs.',
+  name: 'Site Representative',
+  company: 'Eskom Holdings',
+  role: 'Kusile Power Station'
 },
 {
-  text: 'We have partnered with Legend on multiple civil infrastructure projects. Their team is highly professional, safety-conscious, and delivers technical excellence every time.',
-  name: 'Sarah Naidoo',
-  company: 'eThekwini Municipality',
-  role: 'Senior Engineer'
+  text: 'We have partnered with Enerdge Group on multiple civil infrastructure and piping projects at our power station. Their team is highly professional, safety-conscious, and delivers technical excellence every time.',
+  name: 'Engineering Representative',
+  company: 'Eskom Holdings',
+  role: 'Matla Power Station'
 },
 {
-  text: 'The mechanical assessment conducted on our plant equipment was detailed and accurate. Their maintenance consulting has improved our operational efficiency by fifteen percent.',
-  name: 'Michael Botha',
-  company: 'Platinum Resources',
-  role: 'Operations Lead'
+  text: 'The geotechnical investigation and site assessment conducted by Enerdge Group for our project was detailed, accurate and delivered on time. We would not hesitate to use them again.',
+  name: 'Project Manager',
+  company: 'Seriti Resources',
+  role: 'Klarinet Project'
 }];
 
 export function Testimonials() {
@@ -110,7 +110,7 @@ export function Testimonials() {
             Accredited & Affiliated
           </div>
           <div className="flex flex-wrap items-baseline gap-x-16 gap-y-6">
-            {['CIDB', 'NHBRC', 'ISO 9001 : 2015', 'ECSA'].map((name) =>
+            {['CIDB Grade 3CE & 3ME', 'NHBRC Registered', 'VAT Registered', 'B-BBEE 100% Black Owned'].map((name) =>
             <span
               key={name}
               className="font-display text-3xl md:text-4xl text-ink/40 dark:text-white/40 font-light italic hover:text-ink dark:hover:text-cream transition-colors">

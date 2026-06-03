@@ -10,122 +10,59 @@ export function Hero() {
       <div className="max-w-[1600px] mx-auto px-6 md:px-12">
         {/* Eyebrow */}
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 20
-          }}
-          animate={{
-            opacity: 1,
-            y: 0
-          }}
-          transition={{
-            duration: 0.6
-          }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
           className="flex items-center gap-4 mb-12 md:mb-16">
-          
           <span className="w-12 h-px bg-ink/40 dark:bg-white/40"></span>
           <span className="eyebrow text-ink/60 dark:text-white/60">
-            Est. South Africa — NHBRC & CIDB Accredited
+            Est. South Africa — CIDB Grade 3CE & 3ME · NHBRC Registered · 100% Black Owned
           </span>
         </motion.div>
 
         <div className="grid grid-cols-12 gap-6 md:gap-10 items-start">
           {/* Massive editorial headline */}
           <motion.div
-            style={{
-              y: textY
-            }}
-            initial={{
-              opacity: 0
-            }}
-            animate={{
-              opacity: 1
-            }}
-            transition={{
-              duration: 0.8
-            }}
+            style={{ y: textY }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
             className="col-span-12 lg:col-span-8">
-            
             <h1 className="font-display text-[15vw] lg:text-[11vw] xl:text-[10rem] leading-[0.88] tracking-[-0.04em] text-ink dark:text-cream font-light">
               <motion.span
-                initial={{
-                  opacity: 0,
-                  y: 40
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0
-                }}
-                transition={{
-                  duration: 0.8,
-                  delay: 0.1
-                }}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.1 }}
                 className="block">
-                
-                Engineering,
+                Engineering
               </motion.span>
               <motion.span
-                initial={{
-                  opacity: 0,
-                  y: 40
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0
-                }}
-                transition={{
-                  duration: 0.8,
-                  delay: 0.25
-                }}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.25 }}
                 className="block italic text-brand-700 dark:text-brand-400 font-normal pl-[8%]"
-                style={{
-                  fontVariationSettings: '"opsz" 144, "wght" 400'
-                }}>
-                
-                precisely
+                style={{ fontVariationSettings: '"opsz" 144, "wght" 400' }}>
+                the Foundation
               </motion.span>
               <motion.span
-                initial={{
-                  opacity: 0,
-                  y: 40
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0
-                }}
-                transition={{
-                  duration: 0.8,
-                  delay: 0.4
-                }}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
                 className="block">
-                
-                delivered.
+                of Tomorrow.
               </motion.span>
             </h1>
           </motion.div>
 
-          {/* Right rail — caption + floating image */}
+          {/* Right rail — caption + floating video */}
           <motion.div
-            initial={{
-              opacity: 0,
-              y: 40
-            }}
-            animate={{
-              opacity: 1,
-              y: 0
-            }}
-            transition={{
-              duration: 0.8,
-              delay: 0.5
-            }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
             className="col-span-12 lg:col-span-4 lg:pt-8">
-            
             <motion.div
-              style={{
-                y: imageY
-              }}
+              style={{ y: imageY }}
               className="relative aspect-[3/4] overflow-hidden bg-ink/5 mb-6 shadow-2xl">
-
               <video
                 src="/video1.mp4"
                 autoPlay
@@ -133,7 +70,6 @@ export function Hero() {
                 loop
                 playsInline
                 className="w-full h-full object-cover" />
-
             </motion.div>
             <p className="eyebrow text-ink/50 dark:text-white/50 text-[10px]">
               Fig. 01 — Legend Engineers, field operations
@@ -144,60 +80,37 @@ export function Hero() {
         {/* Sub-deck + CTAs row */}
         <div className="grid grid-cols-12 gap-6 md:gap-10 mt-20 md:mt-28">
           <motion.div
-            initial={{
-              opacity: 0,
-              y: 20
-            }}
-            animate={{
-              opacity: 1,
-              y: 0
-            }}
-            transition={{
-              duration: 0.6,
-              delay: 0.6
-            }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
             className="col-span-12 md:col-span-5 md:col-start-2">
-            
             <p className="font-display italic text-2xl md:text-3xl text-ink/70 dark:text-white/70 leading-snug text-pretty font-light">
-              Geotechnical, civil and mechanical engineering — investigations,
-              testing, design and consulting, delivered across South Africa with
-              the care of a craftsman.
+              Geotechnical · Civil · Mechanical · Electrical · Building — delivered
+              with precision across South Africa by 100% black-owned engineers
+              with a proven track record at Eskom, Seriti and Sasol.
             </p>
           </motion.div>
 
           <motion.div
-            initial={{
-              opacity: 0,
-              y: 20
-            }}
-            animate={{
-              opacity: 1,
-              y: 0
-            }}
-            transition={{
-              duration: 0.6,
-              delay: 0.75
-            }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.75 }}
             className="col-span-12 md:col-span-4 md:col-start-9 flex flex-col gap-4 md:items-start">
-            
             <a
-              href="#booking"
+              href="#quote"
               className="group inline-flex items-center gap-3 bg-ink dark:bg-cream text-cream dark:text-ink px-8 py-5 hover:bg-brand-700 dark:hover:bg-brand-700 dark:hover:text-cream transition-colors">
-              
               <span className="font-mono text-sm uppercase tracking-[0.18em]">
-                Request Investigation
+                Get a Free Quote
               </span>
               <ArrowUpRight
                 size={18}
                 className="group-hover:rotate-45 transition-transform duration-500" />
-              
             </a>
             <a
-              href="#quote"
+              href="#projects"
               className="group inline-flex items-center gap-3 text-ink dark:text-cream px-2 py-2 border-b border-ink/30 dark:border-white/30 hover:border-brand-700 dark:hover:border-brand-400 hover:text-brand-700 dark:hover:text-brand-400 transition-colors w-fit">
-              
               <span className="font-mono text-sm uppercase tracking-[0.18em]">
-                Get Quotation
+                View Our Projects
               </span>
               <ArrowUpRight size={16} />
             </a>
@@ -206,35 +119,16 @@ export function Hero() {
 
         {/* Editorial stats footer */}
         <motion.div
-          initial={{
-            opacity: 0
-          }}
-          animate={{
-            opacity: 1
-          }}
-          transition={{
-            duration: 0.6,
-            delay: 0.9
-          }}
-          className="mt-24 md:mt-32 pt-10 hairline grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
-          
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.9 }}
+          className="mt-24 md:mt-32 pt-10 hairline grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-4">
           {[
-          {
-            value: '100+',
-            label: 'Projects Delivered'
-          },
-          {
-            value: '15',
-            label: 'Years in Practice'
-          },
-          {
-            value: '09',
-            label: 'Provinces Served'
-          },
-          {
-            value: '24h',
-            label: 'Quote Turnaround'
-          }].
+          { value: '8+', label: 'Years in Operation' },
+          { value: '20+', label: 'Projects Completed' },
+          { value: 'R5M+', label: 'Value Delivered' },
+          { value: '4', label: 'Provinces Served' },
+          { value: '100%', label: 'Black Owned' }].
           map((stat, idx) =>
           <div key={idx} className="flex flex-col gap-3">
               <span className="eyebrow text-ink/50 dark:text-white/50">
@@ -248,5 +142,4 @@ export function Hero() {
         </motion.div>
       </div>
     </section>);
-
 }
