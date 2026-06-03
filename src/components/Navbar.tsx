@@ -45,8 +45,8 @@ export function Navbar() {
         <a href="#" className="flex items-center">
           <div className="rounded overflow-hidden shadow-sm">
             <img
-              src="/logo.jpeg"
-              alt="Legend Engineers"
+              src="/eglogo.jpeg"
+              alt="Enerdge Group"
               className="h-10 md:h-12 w-auto object-contain block" />
           </div>
         </a>

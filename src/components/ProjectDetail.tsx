@@ -166,7 +166,7 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
             {project.company === 'Legend Engineers (PTY) LTD' ? (
               <div className="space-y-4 text-ink/70 dark:text-white/70 font-light leading-relaxed">
                 <img
-                  src="/logo.jpeg"
+                  src="/eglogo.jpeg"
                   alt="Legend Engineers"
                   className="h-16 w-auto object-contain mb-2 opacity-90"
                 />
