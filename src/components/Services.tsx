@@ -7,8 +7,7 @@ const services = [
   id: 'geotechnical',
   title: 'Geotechnical',
   italic: 'Engineering',
-  image:
-  'https://images.unsplash.com/photo-1578593172074-a7e84128e085?auto=format&fit=crop&w=1200&q=80',
+  videoSrc: '/video2.mp4',
   desc: 'Comprehensive soil and rock investigations for foundation design, site classification, and dolomite assessments.',
   features: [
   'Geotechnical Investigations',
@@ -24,8 +23,7 @@ const services = [
   id: 'civil',
   title: 'Civil',
   italic: 'Engineering',
-  image:
-  'https://images.unsplash.com/photo-1590496794008-383c8070b257?auto=format&fit=crop&w=1200&q=80',
+  videoSrc: '/video3.mp4',
   desc: 'Infrastructure design and development for commercial, residential, and municipal projects across the country.',
   features: [
   'Road Pavement Design',
@@ -41,8 +39,7 @@ const services = [
   id: 'mechanical',
   title: 'Mechanical',
   italic: 'Engineering',
-  image:
-  'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80',
+  image: '/photo18.jpeg',
   desc: 'Industrial mechanical design, equipment assessments and plant engineering for mining and manufacturing.',
   features: [
   'Mechanical Design',
@@ -57,8 +54,7 @@ const services = [
   id: 'laboratory',
   title: 'Laboratory',
   italic: 'Testing',
-  image:
-  'https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=1200&q=80',
+  image: '/photo11.jpeg',
   desc: 'Accurate material testing and analysis in our state-of-the-art laboratory facilities.',
   features: [
   'Rock Testing',
@@ -73,8 +69,7 @@ const services = [
   id: 'surveying',
   title: 'Surveying',
   italic: 'Services',
-  image:
-  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
+  image: '/photo3.jpeg',
   desc: 'Precise topographical and engineering surveys using the latest equipment and methodologies.',
   features: [
   'Borrow Pit Surveys',
@@ -88,8 +83,7 @@ const services = [
   id: 'consulting',
   title: 'Reporting',
   italic: '& Consulting',
-  image:
-  'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
+  image: '/photo13.jpeg',
   desc: 'Detailed technical reports, compliance documentation and expert recommendations you can trust.',
   features: [
   'Detailed Technical Reports',
@@ -154,11 +148,20 @@ export function Services() {
                   className={`col-span-12 lg:col-span-7 ${isEven ? 'lg:order-1' : 'lg:order-2 lg:col-start-6'}`}>
                   
                   <div className="relative aspect-[4/3] overflow-hidden shadow-2xl group">
-                    <img
-                      src={service.image}
-                      alt={service.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
-                    
+                    {service.videoSrc ? (
+                      <video
+                        src={service.videoSrc}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="w-full h-full object-cover" />
+                    ) : (
+                      <img
+                        src={service.image}
+                        alt={service.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
+                    )}
                     <span className="absolute top-6 left-6 font-display text-7xl md:text-8xl text-cream font-light leading-none drop-shadow-2xl">
                       {service.num}
                     </span>
