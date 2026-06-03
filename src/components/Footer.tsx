@@ -127,7 +127,19 @@ export function Footer() {
             <div className="eyebrow text-ink/40 dark:text-white/40 mb-6">
               Accredited
             </div>
-            <p className="text-ink/60 dark:text-white/60 font-light leading-relaxed">
+            <div className="flex flex-wrap gap-4 mb-5">
+              <img
+                src="/cidb logo.jpeg"
+                alt="CIDB Registered"
+                className="h-14 w-auto object-contain opacity-80 dark:opacity-60 rounded"
+              />
+              <img
+                src="/NHBRC logo.jpeg"
+                alt="NHBRC Registered"
+                className="h-14 w-auto object-contain opacity-80 dark:opacity-60 rounded"
+              />
+            </div>
+            <p className="text-ink/60 dark:text-white/60 font-light leading-relaxed text-sm">
               CIDB Grade 3CE & 3ME
               <br />
               NHBRC Registered
