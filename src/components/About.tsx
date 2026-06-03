@@ -67,43 +67,48 @@ export function About() {
 
         {/* Asymmetric layered composition */}
         <div className="grid grid-cols-12 gap-6 md:gap-10 items-start">
-          {/* Left: layered image stack */}
-          <div className="col-span-12 lg:col-span-6 relative h-[600px] md:h-[760px]">
+          {/* Left: image + badge grid */}
+          <div className="col-span-12 lg:col-span-6 grid grid-cols-2 gap-4 md:gap-6 items-start">
+            {/* Left column: tall portrait */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-100px' }}
               transition={{ duration: 0.8 }}
-              className="absolute top-0 left-0 w-[68%] aspect-[3/4] overflow-hidden shadow-2xl">
+              className="aspect-[3/4] overflow-hidden shadow-2xl">
               <img
                 src="/photo9.jpeg"
                 alt="Legend Engineers team on site"
                 className="w-full h-full object-cover object-top" />
             </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-100px' }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="absolute bottom-0 right-0 w-[55%] aspect-[4/5] overflow-hidden shadow-2xl rotate-[2deg]">
-              <img
-                src="/photo16.jpeg"
-                alt="Legend Engineers engineer on site"
-                className="w-full h-full object-cover" />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="absolute top-[20%] right-[5%] bg-ink text-cream p-6 md:p-8 max-w-[200px] shadow-2xl -rotate-[3deg]">
-              <div className="font-display text-6xl md:text-7xl font-light leading-none">
-                14+
-              </div>
-              <div className="eyebrow text-cream/60 mt-2 text-[10px]">
-                Years Leadership
-              </div>
-            </motion.div>
+
+            {/* Right column: badge on top, second photo below */}
+            <div className="flex flex-col gap-4 md:gap-6 pt-10 md:pt-20">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.35 }}
+                className="bg-ink text-cream p-5 md:p-8 shadow-2xl -rotate-[3deg] self-end w-full">
+                <div className="font-display text-5xl md:text-7xl font-light leading-none">
+                  14+
+                </div>
+                <div className="eyebrow text-cream/60 mt-2 text-[10px]">
+                  Years Leadership
+                </div>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="aspect-[3/4] overflow-hidden shadow-2xl rotate-[2deg]">
+                <img
+                  src="/photo16.jpeg"
+                  alt="Legend Engineers engineer on site"
+                  className="w-full h-full object-cover" />
+              </motion.div>
+            </div>
           </div>
 
           {/* Right: editorial text */}

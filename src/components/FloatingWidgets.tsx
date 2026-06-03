@@ -51,7 +51,7 @@ export function FloatingWidgets() {
       const reply = data.reply ?? data.error ?? 'Sorry, something went wrong.';
       setMessages(m => [...m, { role: 'assistant', content: reply, time: now() }]);
     } catch {
-      setMessages(m => [...m, { role: 'assistant', content: 'Unable to connect. Please try again.', time: now() }]);
+      setMessages(m => [...m, { role: 'assistant', content: 'Unable to connect right now. For immediate assistance, please reach us on WhatsApp at +27 73 881 5050 or email info@legendengineers.co.za.', time: now() }]);
     } finally {
       setIsLoading(false);
     }
