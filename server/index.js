@@ -3,7 +3,17 @@ import express from 'express';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import OpenAI from 'openai';
 import { pool } from './db.js';
+
+const openai = new OpenAI({
+  baseURL: 'https://openrouter.ai/api/v1',
+  apiKey: process.env.OPENROUTER_API_KEY,
+  defaultHeaders: {
+    'HTTP-Referer': 'https://legendengineers.co.za',
+    'X-Title': 'Legend Engineers',
+  },
+});
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -84,6 +94,33 @@ app.post('/api/quotes', async (req, res) => {
   } catch (err) {
     console.error('Quote insert error:', err.message);
     res.status(500).json({ ok: false, error: 'Failed to save quote request.' });
+  }
+});
+
+// POST /api/chat — AI assistant
+app.post('/api/chat', async (req, res) => {
+  try {
+    const { messages } = req.body;
+    if (!Array.isArray(messages) || messages.length === 0) {
+      return res.status(400).json({ error: 'messages array required' });
+    }
+
+    const completion = await openai.chat.completions.create({
+      model: 'anthropic/claude-3.5-haiku',
+      messages: [
+        {
+          role: 'system',
+          content: `You are a professional assistant for Legend Engineers, an engineering firm based in Mpumalanga, South Africa, operating under the Enerdge Group. The company specialises in Geotechnical Investigations, Civil Engineering, and Mechanical Engineering. Major clients include Eskom Holdings and Seriti Resources. Be concise, professional, and helpful. For quotes or site bookings, direct users to the booking and quote forms on the website.`,
+        },
+        ...messages,
+      ],
+    });
+
+    const reply = completion.choices[0]?.message?.content ?? 'I was unable to generate a response. Please try again.';
+    res.json({ reply });
+  } catch (err) {
+    console.error('Chat error:', err.message);
+    res.status(500).json({ error: 'AI service unavailable. Please try again shortly.' });
   }
 });
 

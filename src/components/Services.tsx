@@ -25,7 +25,7 @@ const services = [
   id: 'civil',
   title: 'Civil',
   italic: 'Engineering',
-  videoSrc: '/video3.mp4',
+  videoSrc: '/civil1.mp4',
   desc: 'Bulk civil works from earthworks to finished surfaces — at power stations, industrial facilities, residential developments and public road infrastructure. All works SANS & QMS compliant.',
   features: [
   'Bulk Concrete Works',
@@ -40,7 +40,7 @@ const services = [
   id: 'mechanical',
   title: 'Mechanical',
   italic: 'Engineering',
-  image: '/photo18.jpeg',
+  videoSrc: '/mechanical1.mp4',
   desc: 'Industrial piping installation, specialised welding and pressure vessel services. Proven at Eskom power stations across a wide range of pipe materials and welding grades.',
   features: [
   'Piping: Galvanised, Stainless Steel, Copper, HDPE, PVC, Screw',
@@ -115,7 +115,7 @@ const services = [
   id: 'building',
   title: 'Building',
   italic: '& Plumbing',
-  videoSrc: '/video7.mp4',
+  videoSrc: '/plumbing3.mp4',
   desc: 'Full building construction and plumbing services for residential and commercial clients — from concrete base construction to complete suction and discharge plumbing systems.',
   features: [
   'General Building Construction',

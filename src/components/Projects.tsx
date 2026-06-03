@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 
-const categories = ['All', 'Geotechnical', 'Civil', 'Mechanical'];
+const categories = ['All', 'Geotechnical', 'Civil', 'Mechanical', 'Electrical', 'Building'];
 
 const projects = [
 {
@@ -64,6 +64,126 @@ const projects = [
   services: 'Geotechnical Investigation (1200 m²)',
   value: null,
   image: '/photo12.jpeg'
+},
+{
+  id: 7,
+  title: 'Industrial Electrical Installation',
+  category: 'Electrical',
+  location: 'Mpumalanga',
+  client: 'Eskom Holdings',
+  services: 'Industrial Electrical Works',
+  value: null,
+  image: '/electrical1.jpeg'
+},
+{
+  id: 8,
+  title: 'Electrical Distribution & Panel Works',
+  category: 'Electrical',
+  location: 'Mpumalanga',
+  client: 'Industrial Client',
+  services: 'Electrical Engineering',
+  value: null,
+  image: '/electrical2.jpeg'
+},
+{
+  id: 9,
+  title: 'Plumbing & Water Systems Installation',
+  category: 'Building',
+  location: 'Emalahleni, Mpumalanga',
+  client: 'Private Developer',
+  services: 'Plumbing Works',
+  value: null,
+  image: '/plumbing1.jpeg'
+},
+{
+  id: 10,
+  title: 'Suction & Discharge Pipe Works',
+  category: 'Building',
+  location: 'Mpumalanga',
+  client: 'Industrial Client',
+  services: 'Building & Plumbing',
+  value: null,
+  image: '/plumbing2.jpeg'
+},
+{
+  id: 11,
+  title: 'Road Construction & Site Civil Works',
+  category: 'Civil',
+  location: 'Limpopo',
+  client: 'Government Department',
+  services: 'Civil Works & Road Construction',
+  value: null,
+  image: '/photo5.jpeg'
+},
+{
+  id: 12,
+  title: 'Residential Geotechnical Investigation',
+  category: 'Geotechnical',
+  location: 'Gauteng',
+  client: 'Private Developer',
+  services: 'Geotechnical Investigation',
+  value: null,
+  image: '/photo7.jpeg'
+},
+{
+  id: 13,
+  title: 'Power Station Field Operations',
+  category: 'Civil',
+  location: 'Kusile Power Station, Mpumalanga',
+  client: 'Eskom Holdings',
+  services: 'Civil Works & Site Operations',
+  value: null,
+  image: '/photo10.jpeg'
+},
+{
+  id: 14,
+  title: 'Industrial Piping & Mechanical Works',
+  category: 'Mechanical',
+  location: 'Kusile Power Station, Mpumalanga',
+  client: 'Eskom Holdings',
+  services: 'Mechanical Engineering & Piping',
+  value: null,
+  image: '/photo14.jpeg'
+},
+{
+  id: 15,
+  title: 'Concrete Structural Works',
+  category: 'Civil',
+  location: 'Mpumalanga',
+  client: 'Eskom Holdings',
+  services: 'Civil Works & Concrete',
+  value: null,
+  image: '/photo15.jpeg'
+},
+{
+  id: 16,
+  title: 'Specialised Welding & Pressure Testing',
+  category: 'Mechanical',
+  location: 'Matla Power Station, Mpumalanga',
+  client: 'Eskom Holdings',
+  services: 'Welding & Pressure Testing',
+  value: null,
+  image: '/photo17.jpeg'
+},
+{
+  id: 17,
+  title: 'Bulk Earthworks & Site Preparation',
+  category: 'Civil',
+  location: 'Emalahleni, Mpumalanga',
+  client: 'Private Developer',
+  services: 'Bulk Earthworks & Grading',
+  value: null,
+  image: '/photo19.jpeg'
+},
+{
+  id: 18,
+  title: 'Engineering Services — Field Deployment',
+  category: 'Civil',
+  location: 'South Africa',
+  client: 'Various Clients',
+  services: 'Multi-Discipline Engineering',
+  value: null,
+  image: '/servicephoto.jpeg'
 }];
 
 export function Projects() {
@@ -165,11 +285,6 @@ export function Projects() {
                         <p className="text-ink/60 dark:text-white/60 text-sm mt-2 font-light">
                           {project.client} — {project.services}
                         </p>
-                        {project.value && (
-                          <p className="eyebrow text-brand-700 dark:text-brand-400 mt-2">
-                            {project.value}
-                          </p>
-                        )}
                       </div>
                       <ArrowUpRight
                         size={24}

@@ -10,6 +10,7 @@ import { Forms } from './components/Forms';
 import { Testimonials } from './components/Testimonials';
 import { FAQ } from './components/FAQ';
 import { Footer } from './components/Footer';
+import { Gallery } from './components/Gallery';
 import { FloatingWidgets } from './components/FloatingWidgets';
 export function App() {
   return (
@@ -22,6 +23,7 @@ export function App() {
         <Services />
         <WhyChooseUs />
         <Projects />
+        <Gallery />
         <Equipment />
         <Forms />
         <Testimonials />
