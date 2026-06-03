@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 
-type Status = 'idle' | 'submitting' | 'success';
+type Status = 'idle' | 'submitting' | 'success' | 'error';
 
 const serviceOptions = [
   { value: 'geotechnical', label: 'Geotechnical Investigation' },
@@ -25,6 +25,7 @@ const urgencyOptions = [
 
 function EditorialInput({
   label,
+  name,
   type = 'text',
   required = false,
   placeholder = '',
@@ -32,6 +33,7 @@ function EditorialInput({
   options,
 }: {
   label: string;
+  name: string;
   type?: string;
   required?: boolean;
   placeholder?: string;
@@ -49,12 +51,14 @@ function EditorialInput({
       </div>
       {as === 'textarea' ? (
         <textarea
+          name={name}
           required={required}
           rows={3}
           placeholder={placeholder}
           className="w-full bg-transparent border-0 border-b border-ink/20 dark:border-white/20 focus:border-brand-700 dark:focus:border-brand-400 focus:ring-0 outline-none py-3 font-display text-2xl font-light text-ink dark:text-cream placeholder-ink/30 dark:placeholder-white/30 resize-none transition-colors" />
       ) : as === 'select' ? (
         <select
+          name={name}
           required={required}
           className="w-full bg-transparent border-0 border-b border-ink/20 dark:border-white/20 focus:border-brand-700 dark:focus:border-brand-400 focus:ring-0 outline-none py-3 font-display text-2xl font-light text-ink dark:text-cream transition-colors appearance-none cursor-pointer">
           <option value="" className="bg-cream dark:bg-dark-bg">Select...</option>
@@ -66,6 +70,7 @@ function EditorialInput({
         </select>
       ) : (
         <input
+          name={name}
           type={type}
           required={required}
           placeholder={placeholder}
@@ -77,10 +82,59 @@ function EditorialInput({
 export function Forms() {
   const [bookingStatus, setBookingStatus] = useState<Status>('idle');
   const [quoteStatus, setQuoteStatus] = useState<Status>('idle');
-  const submit = (setter: (s: Status) => void) => (e: React.FormEvent) => {
+
+  const submitBooking = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setter('submitting');
-    setTimeout(() => setter('success'), 1200);
+    setBookingStatus('submitting');
+    const fd = new FormData(e.currentTarget);
+    const data = {
+      fullName: fd.get('fullName'),
+      company: fd.get('company'),
+      email: fd.get('email'),
+      phone: fd.get('phone'),
+      service: fd.get('service'),
+      preferredDate: fd.get('preferredDate'),
+      location: fd.get('location'),
+      gps: fd.get('gps'),
+      urgency: fd.get('urgency'),
+      siteArea: fd.get('siteArea'),
+      description: fd.get('description'),
+    };
+    try {
+      const res = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error('Server error');
+      setBookingStatus('success');
+    } catch {
+      setBookingStatus('error');
+    }
+  };
+
+  const submitQuote = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setQuoteStatus('submitting');
+    const fd = new FormData(e.currentTarget);
+    const data = {
+      name: fd.get('name'),
+      email: fd.get('email'),
+      serviceType: fd.get('serviceType'),
+      scope: fd.get('scope'),
+      notes: fd.get('notes'),
+    };
+    try {
+      const res = await fetch('/api/quotes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error('Server error');
+      setQuoteStatus('success');
+    } catch {
+      setQuoteStatus('error');
+    }
   };
 
   return (
@@ -137,28 +191,31 @@ export function Forms() {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={submit(setBookingStatus)} className="space-y-10">
+                <form onSubmit={submitBooking} className="space-y-10">
+                  {bookingStatus === 'error' && (
+                    <p className="eyebrow text-red-600">Something went wrong. Please try again or call us directly.</p>
+                  )}
                   <div className="grid md:grid-cols-2 gap-10">
-                    <EditorialInput label="Full Name" required placeholder="Your full name" />
-                    <EditorialInput label="Company" placeholder="Optional" />
+                    <EditorialInput name="fullName" label="Full Name" required placeholder="Your full name" />
+                    <EditorialInput name="company" label="Company" placeholder="Optional" />
                   </div>
                   <div className="grid md:grid-cols-2 gap-10">
-                    <EditorialInput label="Email" type="email" required placeholder="you@company.com" />
-                    <EditorialInput label="Phone" type="tel" required placeholder="+27" />
+                    <EditorialInput name="email" label="Email" type="email" required placeholder="you@company.com" />
+                    <EditorialInput name="phone" label="Phone" type="tel" required placeholder="+27" />
                   </div>
                   <div className="grid md:grid-cols-2 gap-10">
-                    <EditorialInput label="Service Required" required as="select" />
-                    <EditorialInput label="Preferred Date" type="date" />
+                    <EditorialInput name="service" label="Service Required" required as="select" />
+                    <EditorialInput name="preferredDate" label="Preferred Date" type="date" />
                   </div>
                   <div className="grid md:grid-cols-2 gap-10">
-                    <EditorialInput label="Project Location" required placeholder="City, Province" />
-                    <EditorialInput label="GPS Coordinates" placeholder="Optional — e.g. -25.8553, 29.2428" />
+                    <EditorialInput name="location" label="Project Location" required placeholder="City, Province" />
+                    <EditorialInput name="gps" label="GPS Coordinates" placeholder="Optional — e.g. -25.8553, 29.2428" />
                   </div>
                   <div className="grid md:grid-cols-2 gap-10">
-                    <EditorialInput label="Urgency" required as="select" options={urgencyOptions} />
-                    <EditorialInput label="Site Area / Size" placeholder="Optional — e.g. 500 m²" />
+                    <EditorialInput name="urgency" label="Urgency" required as="select" options={urgencyOptions} />
+                    <EditorialInput name="siteArea" label="Site Area / Size" placeholder="Optional — e.g. 500 m²" />
                   </div>
-                  <EditorialInput label="Project Description" as="textarea" placeholder="Tell us about the project..." />
+                  <EditorialInput name="description" label="Project Description" as="textarea" placeholder="Tell us about the project..." />
 
                   <div className="flex flex-wrap items-center gap-6 pt-8 hairline">
                     <button
@@ -228,23 +285,26 @@ export function Forms() {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={submit(setQuoteStatus)} className="space-y-10">
+                <form onSubmit={submitQuote} className="space-y-10">
+                  {quoteStatus === 'error' && (
+                    <p className="eyebrow text-red-400">Something went wrong. Please try again or call us directly.</p>
+                  )}
                   <div className="grid md:grid-cols-2 gap-10">
                     <label className="block">
                       <div className="eyebrow text-cream/60 mb-3">Name — Required</div>
-                      <input required type="text" placeholder="Your name"
+                      <input name="name" required type="text" placeholder="Your name"
                         className="w-full bg-transparent border-0 border-b border-cream/20 focus:border-brand-400 focus:ring-0 outline-none py-3 font-display text-2xl font-light text-cream placeholder-cream/30 transition-colors" />
                     </label>
                     <label className="block">
                       <div className="eyebrow text-cream/60 mb-3">Email — Required</div>
-                      <input required type="email" placeholder="you@company.com"
+                      <input name="email" required type="email" placeholder="you@company.com"
                         className="w-full bg-transparent border-0 border-b border-cream/20 focus:border-brand-400 focus:ring-0 outline-none py-3 font-display text-2xl font-light text-cream placeholder-cream/30 transition-colors" />
                     </label>
                   </div>
                   <div className="grid md:grid-cols-2 gap-10">
                     <label className="block">
                       <div className="eyebrow text-cream/60 mb-3">Service Type — Required</div>
-                      <select required
+                      <select name="serviceType" required
                         className="w-full bg-transparent border-0 border-b border-cream/20 focus:border-brand-400 focus:ring-0 outline-none py-3 font-display text-2xl font-light text-cream transition-colors appearance-none cursor-pointer">
                         <option value="" className="bg-ink">Select...</option>
                         <option value="geotechnical" className="bg-ink">Geotechnical</option>
@@ -257,13 +317,13 @@ export function Forms() {
                     </label>
                     <label className="block">
                       <div className="eyebrow text-cream/60 mb-3">Project Scope</div>
-                      <input type="text" placeholder="e.g. 500 m² commercial site"
+                      <input name="scope" type="text" placeholder="e.g. 500 m² commercial site"
                         className="w-full bg-transparent border-0 border-b border-cream/20 focus:border-brand-400 focus:ring-0 outline-none py-3 font-display text-2xl font-light text-cream placeholder-cream/30 transition-colors" />
                     </label>
                   </div>
                   <label className="block">
                     <div className="eyebrow text-cream/60 mb-3">Additional Notes</div>
-                    <textarea rows={2} placeholder="Anything else we should know..."
+                    <textarea name="notes" rows={2} placeholder="Anything else we should know..."
                       className="w-full bg-transparent border-0 border-b border-cream/20 focus:border-brand-400 focus:ring-0 outline-none py-3 font-display text-2xl font-light text-cream placeholder-cream/30 resize-none transition-colors" />
                   </label>
 
