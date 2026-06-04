@@ -126,7 +126,7 @@ export function Hero() {
           {[
           { value: '8+', label: 'Years in Operation' },
           { value: '20+', label: 'Projects Completed' },
-          { value: 'R5M+', label: 'Value Delivered' },
+          { value: 'R20M+', label: 'Value Delivered' },
           { value: '4', label: 'Provinces Served' },
           { value: '100%', label: 'Black Owned' }].
           map((stat, idx) =>

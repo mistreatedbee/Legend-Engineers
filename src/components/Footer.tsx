@@ -165,6 +165,15 @@ export function Footer() {
                   Facebook
                 </a>
               </li>
+              <li>
+                <a
+                  href="https://www.tiktok.com/@enerdgegroup?_r=1&_t=ZS-96vb2T9siCm"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-display text-xl text-ink/80 dark:text-white/80 font-light hover:italic hover:text-brand-700 dark:hover:text-brand-400 transition-all">
+                  TikTok
+                </a>
+              </li>
               {['LinkedIn', 'Instagram'].map((net) =>
               <li key={net}>
                   <a
