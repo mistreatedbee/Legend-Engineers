@@ -144,6 +144,20 @@ export function About() {
                   in service delivery and recognised for technical excellence.
                 </p>
               </div>
+              <div className="pt-6 hairline flex gap-10 flex-wrap">
+                <div>
+                  <div className="font-display text-4xl md:text-5xl font-light text-ink dark:text-cream">30+</div>
+                  <div className="eyebrow text-ink/60 dark:text-white/60 mt-1">Projects completed</div>
+                </div>
+                <div>
+                  <div className="font-display text-4xl md:text-5xl font-light text-ink dark:text-cream">R20M+</div>
+                  <div className="eyebrow text-ink/60 dark:text-white/60 mt-1">Value delivered</div>
+                </div>
+                <div>
+                  <div className="font-display text-4xl md:text-5xl font-light text-ink dark:text-cream">8</div>
+                  <div className="eyebrow text-ink/60 dark:text-white/60 mt-1">Provinces</div>
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -160,8 +174,8 @@ export function About() {
           </div>
           <div className="col-span-12 md:col-span-9">
             <div className="flex items-start gap-8 md:gap-12">
-              <div className="w-20 h-20 md:w-24 md:h-24 bg-ink dark:bg-cream flex items-center justify-center flex-shrink-0">
-                <span className="font-display text-3xl md:text-4xl text-cream dark:text-ink font-light italic">KN</span>
+              <div className="w-20 h-20 md:w-24 md:h-24 overflow-hidden flex-shrink-0 shadow-lg">
+                <img src="/K Nkuna.jpeg" alt="Knowledge Edwin Nkuna" className="w-full h-full object-cover object-top" />
               </div>
               <div>
                 <h3 className="font-display text-3xl md:text-4xl text-ink dark:text-cream font-light leading-tight mb-2">

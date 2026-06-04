@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 const equipment = [
 {
   num: '01',
-  name: 'Dynamic Cone Penetrometer',
+  name: 'Nuclear Density Gauge',
   category: 'Soil Testing',
-  image: '/photo1.jpeg',
-  specs: 'Measures in-situ strength of fine-grained and granular subgrades.'
+  image: '/Nuclear Density.jpeg',
+  specs: 'Nuclear Density compaction tests evaluate soil density and moisture content to ensure engineered fill can support roads, bridges, and building foundations.'
 },
 {
   num: '02',
@@ -26,7 +26,7 @@ const equipment = [
   num: '04',
   name: 'Dynamic Cone Penetrometer',
   category: 'Field Investigation',
-  image: '/photo12.jpeg',
+  image: '/Dynamic Cone Penetrometer.jpeg',
   specs: 'In-situ strength testing of subgrades and granular layers across the site.'
 }];
 

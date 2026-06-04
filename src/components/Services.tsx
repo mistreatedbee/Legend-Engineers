@@ -37,6 +37,21 @@ const services = [
 },
 {
   num: '03',
+  id: 'laboratory',
+  title: 'Laboratory',
+  italic: 'Testing',
+  image: '/laboratory testing.jpeg',
+  desc: 'Accurate material testing and analysis for engineering projects of every scale — from residential foundation samples to large-scale road construction quality assurance.',
+  features: [
+  'Rock Testing & Classification',
+  'Soil Testing & Profiling',
+  'Concrete Testing (Cylinders & Cubes)',
+  'Borrow Pit Material Analysis',
+  'Nuclear Density Compaction Testing',
+  'Quality Assurance Reporting']
+},
+{
+  num: '04',
   id: 'mechanical',
   title: 'Mechanical',
   italic: 'Engineering',
@@ -49,21 +64,6 @@ const services = [
   'Vessel Pressure Testing & Certification',
   'Plant Engineering & Equipment Assessments',
   'Maintenance Consulting']
-},
-{
-  num: '04',
-  id: 'laboratory',
-  title: 'Laboratory',
-  italic: 'Testing',
-  image: '/photo11.jpeg',
-  desc: 'Accurate material testing and analysis for engineering projects of every scale — from residential foundation samples to large-scale road construction quality assurance.',
-  features: [
-  'Rock Testing & Classification',
-  'Soil Testing & Profiling',
-  'Concrete Testing (Cylinders & Cubes)',
-  'Borrow Pit Material Analysis',
-  'Nuclear Density Compaction Testing',
-  'Quality Assurance Reporting']
 },
 {
   num: '05',
@@ -82,21 +82,6 @@ const services = [
 },
 {
   num: '06',
-  id: 'consulting',
-  title: 'Reporting',
-  italic: '& Consulting',
-  image: '/photo13.jpeg',
-  desc: 'Detailed technical reports, compliance documentation and expert recommendations. SAIEG-classified development suitability assessments with full foundation design guidance.',
-  features: [
-  'Comprehensive Geotechnical Investigation Reports',
-  'Site Locality & Test Pit Position Maps',
-  'Compliance & Feasibility Studies',
-  'NHBRC Submission Documentation',
-  'Foundation Type Recommendations',
-  'Professional Consulting & Advisory']
-},
-{
-  num: '07',
   id: 'electrical',
   title: 'Electrical',
   italic: 'Engineering',
@@ -111,11 +96,11 @@ const services = [
   'Project Consulting']
 },
 {
-  num: '08',
+  num: '07',
   id: 'building',
   title: 'Building',
   italic: '& Plumbing',
-  videoSrc: '/plumbing3.mp4',
+  image: '/Building & Plumbing.jpeg',
   desc: 'Full building construction and plumbing services for residential and commercial clients — from concrete base construction to complete suction and discharge plumbing systems.',
   features: [
   'General Building Construction',
@@ -126,7 +111,7 @@ const services = [
   'Concrete Foundation Works']
 },
 {
-  num: '09',
+  num: '08',
   id: 'supply',
   title: 'Supply',
   italic: '& Delivery',
@@ -139,6 +124,21 @@ const services = [
   'Office Furniture & Décor',
   'Groceries & Provisions',
   'Site Equipment & Materials']
+},
+{
+  num: '09',
+  id: 'consulting',
+  title: 'Reporting',
+  italic: '& Consulting',
+  image: '/photo13.jpeg',
+  desc: 'Detailed technical reports, compliance documentation and expert recommendations. SAIEG-classified development suitability assessments with full foundation design guidance.',
+  features: [
+  'Comprehensive Geotechnical Investigation Reports',
+  'Site Locality & Test Pit Position Maps',
+  'Compliance & Feasibility Studies',
+  'NHBRC Submission Documentation',
+  'Foundation Type Recommendations',
+  'Professional Consulting & Advisory']
 }];
 
 export function Services() {
