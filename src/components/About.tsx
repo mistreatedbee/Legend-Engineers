@@ -144,21 +144,7 @@ export function About() {
                   in service delivery and recognised for technical excellence.
                 </p>
               </div>
-              <div className="pt-6 hairline flex gap-10 flex-wrap">
-                <div>
-                  <div className="font-display text-4xl md:text-5xl font-light text-ink dark:text-cream">30+</div>
-                  <div className="eyebrow text-ink/60 dark:text-white/60 mt-1">Projects completed</div>
-                </div>
-                <div>
-                  <div className="font-display text-4xl md:text-5xl font-light text-ink dark:text-cream">R20M+</div>
-                  <div className="eyebrow text-ink/60 dark:text-white/60 mt-1">Value delivered</div>
-                </div>
-                <div>
-                  <div className="font-display text-4xl md:text-5xl font-light text-ink dark:text-cream">8</div>
-                  <div className="eyebrow text-ink/60 dark:text-white/60 mt-1">Provinces</div>
-                </div>
-              </div>
-            </div>
+              
           </motion.div>
         </div>
 
