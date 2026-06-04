@@ -125,9 +125,9 @@ export function Hero() {
           className="mt-24 md:mt-32 pt-10 hairline grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-4">
           {[
           { value: '8+', label: 'Years in Operation' },
-          { value: '20+', label: 'Projects Completed' },
+          { value: '30+', label: 'Projects Completed' },
           { value: 'R20M+', label: 'Value Delivered' },
-          { value: '4', label: 'Provinces Served' },
+          { value: '8', label: 'Provinces Served' },
           { value: '100%', label: 'Black Owned' }].
           map((stat, idx) =>
           <div key={idx} className="flex flex-col gap-3">
