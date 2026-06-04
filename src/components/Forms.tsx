@@ -4,6 +4,10 @@ import { ArrowUpRight } from 'lucide-react';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
+function buildWhatsAppUrl(phone: string, message: string) {
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+}
+
 const serviceOptions = [
   { value: 'geotechnical', label: 'Geotechnical Investigation' },
   { value: 'dolomite', label: 'Dolomite Study' },
@@ -82,24 +86,43 @@ function EditorialInput({
 export function Forms() {
   const [bookingStatus, setBookingStatus] = useState<Status>('idle');
   const [quoteStatus, setQuoteStatus] = useState<Status>('idle');
+  const [bookingWhatsApp, setBookingWhatsApp] = useState('');
+  const [quoteWhatsApp, setQuoteWhatsApp] = useState('');
 
   const submitBooking = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setBookingStatus('submitting');
     const fd = new FormData(e.currentTarget);
     const data = {
-      fullName: fd.get('fullName'),
-      company: fd.get('company'),
-      email: fd.get('email'),
-      phone: fd.get('phone'),
-      service: fd.get('service'),
-      preferredDate: fd.get('preferredDate'),
-      location: fd.get('location'),
-      gps: fd.get('gps'),
-      urgency: fd.get('urgency'),
-      siteArea: fd.get('siteArea'),
-      description: fd.get('description'),
+      fullName: fd.get('fullName') as string,
+      company: fd.get('company') as string,
+      email: fd.get('email') as string,
+      phone: fd.get('phone') as string,
+      service: fd.get('service') as string,
+      preferredDate: fd.get('preferredDate') as string,
+      location: fd.get('location') as string,
+      gps: fd.get('gps') as string,
+      urgency: fd.get('urgency') as string,
+      siteArea: fd.get('siteArea') as string,
+      description: fd.get('description') as string,
+      notes: fd.get('notes') as string,
     };
+    const msg = [
+      `*New Investigation Booking — Legend Engineers*`,
+      `Name: ${data.fullName}`,
+      `Company: ${data.company || '—'}`,
+      `Email: ${data.email}`,
+      `Phone: ${data.phone}`,
+      `Service: ${data.service}`,
+      `Location: ${data.location}`,
+      `GPS: ${data.gps || '—'}`,
+      `Urgency: ${data.urgency}`,
+      `Site Area: ${data.siteArea || '—'}`,
+      `Preferred Date: ${data.preferredDate || '—'}`,
+      `Description: ${data.description || '—'}`,
+      `Notes: ${data.notes || '—'}`,
+    ].join('\n');
+    setBookingWhatsApp(buildWhatsAppUrl('27738815050', msg));
     try {
       const res = await fetch('/api/bookings', {
         method: 'POST',
@@ -118,12 +141,29 @@ export function Forms() {
     setQuoteStatus('submitting');
     const fd = new FormData(e.currentTarget);
     const data = {
-      name: fd.get('name'),
-      email: fd.get('email'),
-      serviceType: fd.get('serviceType'),
-      scope: fd.get('scope'),
-      notes: fd.get('notes'),
+      name: fd.get('name') as string,
+      company: fd.get('company') as string,
+      email: fd.get('email') as string,
+      phone: fd.get('phone') as string,
+      serviceType: fd.get('serviceType') as string,
+      location: fd.get('location') as string,
+      gps: fd.get('gps') as string,
+      scope: fd.get('scope') as string,
+      notes: fd.get('notes') as string,
     };
+    const msg = [
+      `*New Quote Request — Legend Engineers*`,
+      `Name: ${data.name}`,
+      `Company: ${data.company || '—'}`,
+      `Email: ${data.email}`,
+      `Phone: ${data.phone || '—'}`,
+      `Service: ${data.serviceType}`,
+      `Location: ${data.location || '—'}`,
+      `GPS: ${data.gps || '—'}`,
+      `Scope: ${data.scope || '—'}`,
+      `Notes: ${data.notes || '—'}`,
+    ].join('\n');
+    setQuoteWhatsApp(buildWhatsAppUrl('27738815050', msg));
     try {
       const res = await fetch('/api/quotes', {
         method: 'POST',
@@ -184,11 +224,22 @@ export function Forms() {
                     A member of our team will reach out within one business day to confirm details and
                     schedule your investigation.
                   </p>
-                  <button
-                    onClick={() => setBookingStatus('idle')}
-                    className="eyebrow text-ink dark:text-cream border-b border-ink/30 dark:border-white/30 pb-1 hover:border-brand-700">
-                    Submit another request
-                  </button>
+                  <div className="flex flex-wrap items-center gap-6">
+                    <button
+                      onClick={() => setBookingStatus('idle')}
+                      className="eyebrow text-ink dark:text-cream border-b border-ink/30 dark:border-white/30 pb-1 hover:border-brand-700">
+                      Submit another request
+                    </button>
+                    {bookingWhatsApp && (
+                      <a
+                        href={bookingWhatsApp}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 bg-[#25D366] text-white px-5 py-3 hover:bg-[#1ebe5d] transition-colors">
+                        <span className="font-mono text-xs uppercase tracking-[0.15em]">Send via WhatsApp</span>
+                      </a>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={submitBooking} className="space-y-10">
@@ -216,6 +267,7 @@ export function Forms() {
                     <EditorialInput name="siteArea" label="Site Area / Size" placeholder="Optional — e.g. 500 m²" />
                   </div>
                   <EditorialInput name="description" label="Project Description" as="textarea" placeholder="Tell us about the project..." />
+                  <EditorialInput name="notes" label="Additional Notes" as="textarea" placeholder="Any other relevant information..." />
 
                   <div className="flex flex-wrap items-center gap-6 pt-8 hairline">
                     <button
@@ -278,11 +330,22 @@ export function Forms() {
                   <p className="text-cream/60 text-lg font-light mb-8 max-w-xl">
                     Our estimation team is reviewing your details. Expect a detailed quotation within 24 hours.
                   </p>
-                  <button
-                    onClick={() => setQuoteStatus('idle')}
-                    className="eyebrow text-cream border-b border-cream/30 pb-1 hover:border-brand-400">
-                    Request another quote
-                  </button>
+                  <div className="flex flex-wrap items-center gap-6">
+                    <button
+                      onClick={() => setQuoteStatus('idle')}
+                      className="eyebrow text-cream border-b border-cream/30 pb-1 hover:border-brand-400">
+                      Request another quote
+                    </button>
+                    {quoteWhatsApp && (
+                      <a
+                        href={quoteWhatsApp}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 bg-[#25D366] text-white px-5 py-3 hover:bg-[#1ebe5d] transition-colors">
+                        <span className="font-mono text-xs uppercase tracking-[0.15em]">Send via WhatsApp</span>
+                      </a>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={submitQuote} className="space-y-10">
@@ -291,19 +354,40 @@ export function Forms() {
                   )}
                   <div className="grid md:grid-cols-2 gap-10">
                     <label className="block">
-                      <div className="eyebrow text-cream/60 mb-3">Name — Required</div>
-                      <input name="name" required type="text" placeholder="Your name"
+                      <div className="flex items-baseline justify-between mb-3">
+                        <span className="eyebrow text-cream/60">Full Name</span>
+                        <span className="eyebrow text-brand-400">Required</span>
+                      </div>
+                      <input name="name" required type="text" placeholder="Your full name"
                         className="w-full bg-transparent border-0 border-b border-cream/20 focus:border-brand-400 focus:ring-0 outline-none py-3 font-display text-2xl font-light text-cream placeholder-cream/30 transition-colors" />
                     </label>
                     <label className="block">
-                      <div className="eyebrow text-cream/60 mb-3">Email — Required</div>
-                      <input name="email" required type="email" placeholder="you@company.com"
+                      <div className="eyebrow text-cream/60 mb-3">Company Name</div>
+                      <input name="company" type="text" placeholder="Optional"
                         className="w-full bg-transparent border-0 border-b border-cream/20 focus:border-brand-400 focus:ring-0 outline-none py-3 font-display text-2xl font-light text-cream placeholder-cream/30 transition-colors" />
                     </label>
                   </div>
                   <div className="grid md:grid-cols-2 gap-10">
                     <label className="block">
-                      <div className="eyebrow text-cream/60 mb-3">Service Type — Required</div>
+                      <div className="flex items-baseline justify-between mb-3">
+                        <span className="eyebrow text-cream/60">Email Address</span>
+                        <span className="eyebrow text-brand-400">Required</span>
+                      </div>
+                      <input name="email" required type="email" placeholder="you@company.com"
+                        className="w-full bg-transparent border-0 border-b border-cream/20 focus:border-brand-400 focus:ring-0 outline-none py-3 font-display text-2xl font-light text-cream placeholder-cream/30 transition-colors" />
+                    </label>
+                    <label className="block">
+                      <div className="eyebrow text-cream/60 mb-3">Phone Number</div>
+                      <input name="phone" type="tel" placeholder="+27"
+                        className="w-full bg-transparent border-0 border-b border-cream/20 focus:border-brand-400 focus:ring-0 outline-none py-3 font-display text-2xl font-light text-cream placeholder-cream/30 transition-colors" />
+                    </label>
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-10">
+                    <label className="block">
+                      <div className="flex items-baseline justify-between mb-3">
+                        <span className="eyebrow text-cream/60">Service Required</span>
+                        <span className="eyebrow text-brand-400">Required</span>
+                      </div>
                       <select name="serviceType" required
                         className="w-full bg-transparent border-0 border-b border-cream/20 focus:border-brand-400 focus:ring-0 outline-none py-3 font-display text-2xl font-light text-cream transition-colors appearance-none cursor-pointer">
                         <option value="" className="bg-ink">Select...</option>
@@ -312,8 +396,23 @@ export function Forms() {
                         <option value="mechanical" className="bg-ink">Mechanical Engineering</option>
                         <option value="electrical" className="bg-ink">Electrical Engineering</option>
                         <option value="building" className="bg-ink">Building & Plumbing</option>
+                        <option value="lab" className="bg-ink">Laboratory Testing</option>
+                        <option value="survey" className="bg-ink">Surveying Services</option>
                         <option value="supply" className="bg-ink">Supply & Delivery</option>
+                        <option value="consulting" className="bg-ink">Reporting & Consulting</option>
                       </select>
+                    </label>
+                    <label className="block">
+                      <div className="eyebrow text-cream/60 mb-3">Project Location</div>
+                      <input name="location" type="text" placeholder="City, Province"
+                        className="w-full bg-transparent border-0 border-b border-cream/20 focus:border-brand-400 focus:ring-0 outline-none py-3 font-display text-2xl font-light text-cream placeholder-cream/30 transition-colors" />
+                    </label>
+                  </div>
+                  <div className="grid md:grid-cols-2 gap-10">
+                    <label className="block">
+                      <div className="eyebrow text-cream/60 mb-3">GPS Coordinates</div>
+                      <input name="gps" type="text" placeholder="Optional — e.g. -25.8553, 29.2428"
+                        className="w-full bg-transparent border-0 border-b border-cream/20 focus:border-brand-400 focus:ring-0 outline-none py-3 font-display text-2xl font-light text-cream placeholder-cream/30 transition-colors" />
                     </label>
                     <label className="block">
                       <div className="eyebrow text-cream/60 mb-3">Project Scope</div>

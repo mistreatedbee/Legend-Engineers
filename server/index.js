@@ -4,7 +4,34 @@ import cors from 'cors';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import OpenAI from 'openai';
+import nodemailer from 'nodemailer';
 import { pool } from './db.js';
+
+const mailer = process.env.EMAIL_USER
+  ? nodemailer.createTransport({
+      service: 'gmail',
+      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+    })
+  : null;
+
+function rowHtml(label, value) {
+  return `<tr><td style="padding:6px 12px;font-weight:600;background:#f5f5f5;white-space:nowrap">${label}</td><td style="padding:6px 12px">${value || '—'}</td></tr>`;
+}
+
+async function sendMail(subject, htmlRows) {
+  if (!mailer) return;
+  try {
+    await mailer.sendMail({
+      from: `"Legend Engineers Website" <${process.env.EMAIL_USER}>`,
+      to: 'enerdgegroup@gmail.com',
+      cc: 'egengineers88@gmail.com',
+      subject,
+      html: `<table style="font-family:sans-serif;font-size:14px;border-collapse:collapse;width:100%">${htmlRows}</table>`,
+    });
+  } catch (err) {
+    console.error('Email send error:', err.message);
+  }
+}
 
 const openai = new OpenAI({
   baseURL: 'https://openrouter.ai/api/v1',
@@ -50,6 +77,17 @@ await pool.query(`
   );
 `);
 
+await pool.query(`
+  ALTER TABLE quote_requests
+    ADD COLUMN IF NOT EXISTS company TEXT,
+    ADD COLUMN IF NOT EXISTS phone TEXT,
+    ADD COLUMN IF NOT EXISTS location TEXT,
+    ADD COLUMN IF NOT EXISTS gps_coordinates TEXT;
+
+  ALTER TABLE booking_requests
+    ADD COLUMN IF NOT EXISTS notes TEXT;
+`);
+
 console.log('Database tables ready.');
 
 // POST /api/bookings — save investigation booking
@@ -57,19 +95,37 @@ app.post('/api/bookings', async (req, res) => {
   try {
     const {
       fullName, company, email, phone, service,
-      preferredDate, location, gps, urgency, siteArea, description,
+      preferredDate, location, gps, urgency, siteArea, description, notes,
     } = req.body;
 
     await pool.query(
       `INSERT INTO booking_requests
         (full_name, company, email, phone, service, preferred_date,
-         location, gps_coordinates, urgency, site_area, description)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
+         location, gps_coordinates, urgency, site_area, description, notes)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`,
       [
         fullName, company || null, email, phone, service,
         preferredDate || null, location, gps || null,
-        urgency || null, siteArea || null, description || null,
+        urgency || null, siteArea || null, description || null, notes || null,
       ]
+    );
+
+    await sendMail(
+      `[New Booking] ${fullName} — ${service}`,
+      [
+        rowHtml('Full Name', fullName),
+        rowHtml('Company', company),
+        rowHtml('Email', email),
+        rowHtml('Phone', phone),
+        rowHtml('Service', service),
+        rowHtml('Preferred Date', preferredDate),
+        rowHtml('Location', location),
+        rowHtml('GPS Coordinates', gps),
+        rowHtml('Urgency', urgency),
+        rowHtml('Site Area', siteArea),
+        rowHtml('Description', description),
+        rowHtml('Additional Notes', notes),
+      ].join('')
     );
 
     res.json({ ok: true });
@@ -82,12 +138,28 @@ app.post('/api/bookings', async (req, res) => {
 // POST /api/quotes — save quotation request
 app.post('/api/quotes', async (req, res) => {
   try {
-    const { name, email, serviceType, scope, notes } = req.body;
+    const { name, company, email, phone, serviceType, location, gps, scope, notes } = req.body;
 
     await pool.query(
-      `INSERT INTO quote_requests (name, email, service_type, scope, notes)
-       VALUES ($1,$2,$3,$4,$5)`,
-      [name, email, serviceType, scope || null, notes || null]
+      `INSERT INTO quote_requests
+        (name, company, email, phone, service_type, location, gps_coordinates, scope, notes)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+      [name, company || null, email, phone || null, serviceType, location || null, gps || null, scope || null, notes || null]
+    );
+
+    await sendMail(
+      `[New Quote] ${name} — ${serviceType}`,
+      [
+        rowHtml('Name', name),
+        rowHtml('Company', company),
+        rowHtml('Email', email),
+        rowHtml('Phone', phone),
+        rowHtml('Service', serviceType),
+        rowHtml('Location', location),
+        rowHtml('GPS Coordinates', gps),
+        rowHtml('Project Scope', scope),
+        rowHtml('Additional Notes', notes),
+      ].join('')
     );
 
     res.json({ ok: true });

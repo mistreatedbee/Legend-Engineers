@@ -194,6 +194,35 @@ export function Footer() {
             </a>
           </div>
         </div>
+
+        {/* Built by NextWave Digital Solutions */}
+        <div className="mt-8 pt-6 border-t border-ink/10 dark:border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <span className="eyebrow text-ink/30 dark:text-white/30 block mb-1">Website Designed, Developed &amp; Maintained By</span>
+            <span className="font-display text-lg font-light text-ink/50 dark:text-white/50 italic">
+              NextWave Digital Solutions
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-x-8 gap-y-2">
+            <a
+              href="mailto:nextwavedigitalsolutionsza@gmail.com"
+              className="eyebrow text-ink/40 dark:text-white/40 hover:text-brand-700 dark:hover:text-brand-400 transition-colors">
+              nextwavedigitalsolutionsza@gmail.com
+            </a>
+            <a
+              href="tel:0731531188"
+              className="eyebrow text-ink/40 dark:text-white/40 hover:text-brand-700 dark:hover:text-brand-400 transition-colors">
+              073 153 1188
+            </a>
+            <a
+              href="https://www.nextwavedigitalsolutions.co.za"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="eyebrow text-ink/40 dark:text-white/40 hover:text-brand-700 dark:hover:text-brand-400 transition-colors">
+              www.nextwavedigitalsolutions.co.za
+            </a>
+          </div>
+        </div>
       </div>
     </footer>);
 }

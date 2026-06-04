@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 const testimonials = [
@@ -23,12 +23,23 @@ const testimonials = [
 
 export function Testimonials() {
   const [index, setIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const current = testimonials[index];
-  const next = () => setIndex((index + 1) % testimonials.length);
-  const prev = () =>
-  setIndex((index - 1 + testimonials.length) % testimonials.length);
+
+  const next = useCallback(() => setIndex((i) => (i + 1) % testimonials.length), []);
+  const prev = useCallback(() => setIndex((i) => (i - 1 + testimonials.length) % testimonials.length), []);
+
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(next, 5000);
+    return () => clearInterval(timer);
+  }, [next, isPaused]);
+
   return (
-    <section className="relative bg-cream dark:bg-dark-bg py-32 md:py-40 overflow-hidden">
+    <section
+      className="relative bg-cream dark:bg-dark-bg py-32 md:py-40 overflow-hidden"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}>
       <div className="max-w-[1600px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-12 gap-6 md:gap-10 mb-16 md:mb-24">
           <div className="col-span-12 md:col-span-3 flex items-start gap-4">
@@ -82,21 +93,31 @@ export function Testimonials() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4">
-                    <button
-                      onClick={prev}
-                      className="w-14 h-14 border border-ink/20 dark:border-white/20 flex items-center justify-center text-ink dark:text-cream hover:bg-ink hover:text-cream dark:hover:bg-cream dark:hover:text-ink transition-colors"
-                      aria-label="Previous testimonial">
-                      
-                      <ArrowLeft size={18} />
-                    </button>
-                    <button
-                      onClick={next}
-                      className="w-14 h-14 border border-ink/20 dark:border-white/20 flex items-center justify-center text-ink dark:text-cream hover:bg-ink hover:text-cream dark:hover:bg-cream dark:hover:text-ink transition-colors"
-                      aria-label="Next testimonial">
-                      
-                      <ArrowRight size={18} />
-                    </button>
+                  <div className="flex flex-col items-end gap-3">
+                    <div className="flex items-center gap-4">
+                      <button
+                        onClick={prev}
+                        className="w-14 h-14 border border-ink/20 dark:border-white/20 flex items-center justify-center text-ink dark:text-cream hover:bg-ink hover:text-cream dark:hover:bg-cream dark:hover:text-ink transition-colors"
+                        aria-label="Previous testimonial">
+                        <ArrowLeft size={18} />
+                      </button>
+                      <button
+                        onClick={next}
+                        className="w-14 h-14 border border-ink/20 dark:border-white/20 flex items-center justify-center text-ink dark:text-cream hover:bg-ink hover:text-cream dark:hover:bg-cream dark:hover:text-ink transition-colors"
+                        aria-label="Next testimonial">
+                        <ArrowRight size={18} />
+                      </button>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {testimonials.map((_, i) => (
+                        <button
+                          key={i}
+                          onClick={() => setIndex(i)}
+                          aria-label={`Go to testimonial ${i + 1}`}
+                          className={`h-2 rounded-full transition-all duration-300 ${i === index ? 'w-6 bg-brand-700 dark:bg-brand-400' : 'w-2 bg-ink/20 dark:bg-white/20 hover:bg-ink/40 dark:hover:bg-white/40'}`}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </footer>
               </motion.blockquote>

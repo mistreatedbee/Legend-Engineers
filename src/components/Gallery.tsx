@@ -5,8 +5,10 @@ import { Play } from 'lucide-react';
 const media = [
   { type: 'video', src: '/civil2.mp4', label: 'Civil Works', caption: 'Site operations & bulk earthworks' },
   { type: 'video', src: '/civil3.mp4', label: 'Civil Engineering', caption: 'Road construction & drainage' },
-  { type: 'video', src: '/Mechanical2.mp4', label: 'Mechanical', caption: 'Industrial piping & welding' },
+  { type: 'video', src: '/mechanical1.mp4', label: 'Mechanical', caption: 'Industrial piping & welding' },
   { type: 'video', src: '/civil4.mp4', label: 'Civil Works', caption: 'Concrete & structural works' },
+  { type: 'video', src: '/civil5.mp4', label: 'Civil Construction', caption: 'Infrastructure & civil works' },
+  { type: 'video', src: '/geotechnical1.mp4', label: 'Geotechnical', caption: 'Geotechnical investigation in progress' },
   { type: 'video', src: '/video4.mp4', label: 'Field Operations', caption: 'Project site footage' },
   { type: 'video', src: '/video5.mp4', label: 'Engineering Works', caption: 'Project site footage' },
   { type: 'video', src: '/video8.mp4', label: 'Site Works', caption: 'Project site footage' },
