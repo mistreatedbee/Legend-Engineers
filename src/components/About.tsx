@@ -145,8 +145,11 @@ export function About() {
                 </p>
               </div>
               
-          </motion.div>
-        </div>
+         </div>
+
+</motion.div>
+
+</div>
 
         {/* Leadership block */}
         <motion.div
