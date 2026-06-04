@@ -156,7 +156,16 @@ export function Footer() {
               Follow
             </div>
             <ul className="space-y-3">
-              {['LinkedIn', 'Facebook', 'Instagram'].map((net) =>
+              <li>
+                <a
+                  href="https://www.facebook.com/share/1E574fKKiD/?mibextid=wwXIfr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-display text-xl text-ink/80 dark:text-white/80 font-light hover:italic hover:text-brand-700 dark:hover:text-brand-400 transition-all">
+                  Facebook
+                </a>
+              </li>
+              {['LinkedIn', 'Instagram'].map((net) =>
               <li key={net}>
                   <a
                   href="#"
