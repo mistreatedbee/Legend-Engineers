@@ -103,12 +103,12 @@ export function FloatingWidgets() {
                     <div className="eyebrow text-ink/40 dark:text-white/40">
                       {msg.role === 'user' ? 'You' : 'Assistant'} — {msg.time}
                     </div>
-                    <p className={`font-display text-base italic font-light leading-snug ${
+                    <p className={`font-sans text-sm font-normal leading-relaxed ${
                       msg.role === 'user'
                         ? 'text-brand-700 dark:text-brand-400'
                         : 'text-ink dark:text-cream'
                     }`}>
-                      "{msg.content}"
+                      {msg.content}
                     </p>
                   </div>
                 ))}
@@ -137,7 +137,7 @@ export function FloatingWidgets() {
                     onKeyDown={e => e.key === 'Enter' && sendMessage()}
                     placeholder="Type a question…"
                     disabled={isLoading}
-                    className="w-full bg-transparent border-0 border-b border-ink/20 dark:border-white/20 focus:border-brand-700 dark:focus:border-brand-400 focus:ring-0 outline-none py-2 pr-8 font-display text-base font-light text-ink dark:text-cream placeholder-ink/40 dark:placeholder-white/40 transition-colors disabled:opacity-50" />
+                    className="w-full bg-transparent border-0 border-b border-ink/20 dark:border-white/20 focus:border-brand-700 dark:focus:border-brand-400 focus:ring-0 outline-none py-2 pr-8 font-sans text-sm font-normal text-ink dark:text-cream placeholder-ink/40 dark:placeholder-white/40 transition-colors disabled:opacity-50" />
                   <button
                     onClick={sendMessage}
                     disabled={isLoading || !input.trim()}
