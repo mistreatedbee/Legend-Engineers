@@ -1,5 +1,5 @@
 import { pool, ensureSchema } from './_lib/db.js';
-import { sendMail, rowHtml } from './_lib/mail.js';
+import { sendMail, sendConfirmation, rowHtml } from './_lib/mail.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -49,10 +49,13 @@ export default async function handler(req, res) {
     ].join('')
   );
 
-  const [db, mail] = await Promise.allSettled([saveToDb, notify]);
+  const confirm = sendConfirmation(email, fullName, 'booking');
+
+  const [db, mail, conf] = await Promise.allSettled([saveToDb, notify, confirm]);
 
   if (db.status === 'rejected') console.error('Booking DB error:', db.reason?.message);
   if (mail.status === 'rejected') console.error('Booking email error:', mail.reason?.message);
+  if (conf.status === 'rejected') console.error('Booking confirm error:', conf.reason?.message);
 
   if (db.status === 'fulfilled' || mail.status === 'fulfilled') {
     return res.status(200).json({
