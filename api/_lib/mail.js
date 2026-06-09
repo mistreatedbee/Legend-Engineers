@@ -1,9 +1,14 @@
 import nodemailer from 'nodemailer';
 
-const mailer = process.env.EMAIL_USER
+const mailer = process.env.RESEND_API_KEY
   ? nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+      host: 'smtp.resend.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: 'resend',
+        pass: process.env.RESEND_API_KEY,
+      },
     })
   : null;
 
@@ -12,9 +17,10 @@ export function rowHtml(label, value) {
 }
 
 export async function sendMail(subject, htmlRows) {
-  if (!mailer) throw new Error('Email is not configured (EMAIL_USER/EMAIL_PASS missing)');
+  if (!mailer) throw new Error('Email is not configured (RESEND_API_KEY missing)');
+  const from = process.env.EMAIL_FROM ?? 'Legend Engineers <onboarding@resend.dev>';
   await mailer.sendMail({
-    from: `"Legend Engineers Website" <${process.env.EMAIL_USER}>`,
+    from,
     to: 'enerdgegroup@gmail.com',
     cc: 'egengineers88@gmail.com',
     subject,
