@@ -92,7 +92,7 @@ export function Footer() {
               Navigate
             </div>
             <ul className="space-y-3">
-              {['About', 'Services', 'Projects', 'Equipment'].map((link) =>
+              {['About', 'Services', 'Projects', 'Equipment', 'Careers'].map((link) =>
               <li key={link}>
                   <a
                   href={`#${link.toLowerCase()}`}

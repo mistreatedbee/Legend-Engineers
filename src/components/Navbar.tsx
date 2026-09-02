@@ -33,6 +33,10 @@ export function Navbar() {
     href: '#equipment'
   },
   {
+    name: 'Careers',
+    href: '#careers'
+  },
+  {
     name: 'Contact',
     href: '#contact'
   }];
@@ -42,13 +46,12 @@ export function Navbar() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-cream/90 dark:bg-dark-bg/90 backdrop-blur-md py-4' : 'bg-transparent py-6'}`}>
       
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-        <a href="#" className="flex items-center">
-          <div className="rounded overflow-hidden shadow-sm">
-            <img
-              src="/eglogo.jpeg"
-              alt="Enerdge Group"
-              className="h-10 md:h-12 w-auto object-contain block" />
-          </div>
+        <a href="#" className="flex items-center shrink-0">
+          <img
+            src="/logo.jpg"
+            alt="Legend Engineers — A member of the Enerdge Group"
+            className="h-16 sm:h-[4.5rem] md:h-20 w-auto object-contain block"
+          />
         </a>
 
         {/* Desktop Nav */}

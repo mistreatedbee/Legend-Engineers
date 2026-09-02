@@ -8,6 +8,7 @@ import { WhyChooseUs } from './components/WhyChooseUs';
 import { Projects, Project } from './components/Projects';
 import { ProjectDetail } from './components/ProjectDetail';
 import { Equipment } from './components/Equipment';
+import { Careers } from './components/Careers';
 import { Forms } from './components/Forms';
 import { Testimonials } from './components/Testimonials';
 import { FAQ } from './components/FAQ';
@@ -50,6 +51,7 @@ export function App() {
             <Projects onSelectProject={setSelectedProject} />
             <Gallery />
             <Equipment />
+            <Careers />
             <Forms />
             <Testimonials />
             <FAQ />

@@ -62,6 +62,20 @@ export async function ensureSchema() {
 
     ALTER TABLE booking_requests
       ADD COLUMN IF NOT EXISTS notes TEXT;
+
+    CREATE TABLE IF NOT EXISTS career_applications (
+      id          SERIAL PRIMARY KEY,
+      full_name   TEXT NOT NULL,
+      email       TEXT NOT NULL,
+      phone       TEXT NOT NULL,
+      position    TEXT NOT NULL,
+      location    TEXT,
+      experience  TEXT,
+      linkedin    TEXT,
+      cover_letter TEXT NOT NULL,
+      cv_filename TEXT,
+      created_at  TIMESTAMPTZ DEFAULT NOW()
+    );
   `);
 
   globalThis.__leSchemaReady = true;

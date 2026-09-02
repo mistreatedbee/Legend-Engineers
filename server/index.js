@@ -6,6 +6,8 @@ import path from 'path';
 import OpenAI from 'openai';
 import nodemailer from 'nodemailer';
 import { pool } from './db.js';
+import { parseMultipartForm } from '../api/_lib/multipart.js';
+import { escapeHtml, validateCareerApplication } from '../api/_lib/validate.js';
 
 const mailer = process.env.EMAIL_USER
   ? nodemailer.createTransport({
@@ -18,7 +20,7 @@ function rowHtml(label, value) {
   return `<tr><td style="padding:6px 12px;font-weight:600;background:#f5f5f5;white-space:nowrap">${label}</td><td style="padding:6px 12px">${value || '—'}</td></tr>`;
 }
 
-async function sendMail(subject, htmlRows) {
+async function sendMail(subject, htmlRows, attachments = []) {
   if (!mailer) return;
   try {
     await mailer.sendMail({
@@ -27,6 +29,7 @@ async function sendMail(subject, htmlRows) {
       cc: 'egengineers88@gmail.com',
       subject,
       html: `<table style="font-family:sans-serif;font-size:14px;border-collapse:collapse;width:100%">${htmlRows}</table>`,
+      attachments,
     });
   } catch (err) {
     console.error('Email send error:', err.message);
@@ -86,6 +89,20 @@ await pool.query(`
 
   ALTER TABLE booking_requests
     ADD COLUMN IF NOT EXISTS notes TEXT;
+
+  CREATE TABLE IF NOT EXISTS career_applications (
+    id           SERIAL PRIMARY KEY,
+    full_name    TEXT NOT NULL,
+    email        TEXT NOT NULL,
+    phone        TEXT NOT NULL,
+    position     TEXT NOT NULL,
+    location     TEXT,
+    experience   TEXT,
+    linkedin     TEXT,
+    cover_letter TEXT NOT NULL,
+    cv_filename  TEXT,
+    created_at   TIMESTAMPTZ DEFAULT NOW()
+  );
 `);
 
 console.log('Database tables ready.');
@@ -166,6 +183,70 @@ app.post('/api/quotes', async (req, res) => {
   } catch (err) {
     console.error('Quote insert error:', err.message);
     res.status(500).json({ ok: false, error: 'Failed to save quote request.' });
+  }
+});
+
+// POST /api/career-applications — job application with CV attachment
+app.post('/api/career-applications', async (req, res) => {
+  try {
+    const { fields, file, fileTooLarge } = await parseMultipartForm(req);
+
+    if (fileTooLarge) {
+      return res.status(400).json({ ok: false, error: 'CV file exceeds the 5 MB limit.' });
+    }
+
+    const validation = validateCareerApplication(fields, file);
+
+    if (validation.honeypot) {
+      return res.json({ ok: true });
+    }
+
+    if (!validation.ok) {
+      return res.status(400).json({ ok: false, error: validation.errors[0] });
+    }
+
+    const { fullName, email, phone, position, location, coverLetter, linkedIn, experience } =
+      validation.data;
+
+    await pool.query(
+      `INSERT INTO career_applications
+         (full_name, email, phone, position, location, experience, linkedin, cover_letter, cv_filename)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+      [
+        fullName,
+        email,
+        phone,
+        position,
+        location || null,
+        experience || null,
+        linkedIn || null,
+        coverLetter,
+        file?.filename || null,
+      ]
+    );
+
+    const subject = `JOB APPLICATION - ${position} - ${fullName}`;
+    const htmlRows = [
+      rowHtml('Applicant', escapeHtml(fullName)),
+      rowHtml('Email', escapeHtml(email)),
+      rowHtml('Phone', escapeHtml(phone)),
+      rowHtml('Position', escapeHtml(position)),
+      rowHtml('Location', escapeHtml(location)),
+      rowHtml('Experience', escapeHtml(experience)),
+      rowHtml('LinkedIn', linkedIn ? escapeHtml(linkedIn) : '—'),
+      rowHtml('Cover Letter', escapeHtml(coverLetter).replace(/\n/g, '<br>')),
+    ].join('');
+
+    const attachments = file
+      ? [{ filename: file.filename, content: file.buffer, contentType: file.mimeType }]
+      : [];
+
+    await sendMail(subject, htmlRows, attachments);
+
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('Career application error:', err.message);
+    res.status(500).json({ ok: false, error: 'Failed to submit application.' });
   }
 });
 

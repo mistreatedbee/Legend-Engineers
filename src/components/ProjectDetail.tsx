@@ -166,9 +166,9 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
             {project.company === 'Legend Engineers (PTY) LTD' ? (
               <div className="space-y-4 text-ink/70 dark:text-white/70 font-light leading-relaxed">
                 <img
-                  src="/eglogo.jpeg"
+                  src="/logo.jpg"
                   alt="Legend Engineers"
-                  className="h-16 w-auto object-contain mb-2 opacity-90"
+                  className="h-20 md:h-24 w-auto object-contain mb-2 opacity-90"
                 />
                 <p>
                   Legend Engineers (PTY) LTD was founded in 2021 and is a 100% black-owned small-sized enterprise specialising in mechanical, civil, and geotechnical engineering services.
@@ -186,9 +186,9 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
             ) : (
               <div className="space-y-4 text-ink/70 dark:text-white/70 font-light leading-relaxed">
                 <img
-                  src="/eglogo.jpeg"
+                  src="/logo.jpg"
                   alt="Enerdge Group"
-                  className="h-16 w-auto object-contain mb-2 opacity-90"
+                  className="h-20 md:h-24 w-auto object-contain mb-2 opacity-90"
                 />
                 <p>
                   Enerdge Group (PTY) LTD was founded in 2017 and is a 100% black-owned small-sized enterprise specialising in geotechnical engineering services across South Africa.
