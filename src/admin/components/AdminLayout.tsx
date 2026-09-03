@@ -82,9 +82,14 @@ export function AdminLayout() {
 
   const sidebar = (
     <div className="flex flex-col h-full">
-      <div className="px-5 py-6 border-b border-white/10">
-        <span className="block font-display text-xl text-white leading-tight">EG Legend</span>
-        <span className="block text-[11px] uppercase tracking-[0.18em] text-white/40 mt-0.5">Admin</span>
+      <div className="flex items-center gap-3 px-5 py-6 border-b border-white/10">
+        <div className="h-9 w-9 rounded-lg bg-white/5 border border-white/10 overflow-hidden p-1 flex-shrink-0">
+          <img src="/logo.jpg" alt="" className="h-full w-full object-contain" />
+        </div>
+        <div className="min-w-0">
+          <span className="block font-display text-xl text-white leading-tight truncate">EG Legend</span>
+          <span className="block text-[11px] uppercase tracking-[0.18em] text-white/40 mt-0.5">Admin</span>
+        </div>
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-5">

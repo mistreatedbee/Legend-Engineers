@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { ArrowRight, Eye, EyeOff, Lock, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Eye, EyeOff, Lock } from 'lucide-react';
 import { useAuth } from '../AuthContext';
 import { ErrorText } from '../components/Notify';
 
@@ -47,8 +47,8 @@ export function Login() {
 
       <div className="relative w-full max-w-[26rem]">
         <div className="text-center mb-9">
-          <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-white/5 border border-white/10 mb-5">
-            <ShieldCheck size={24} className="text-brand-400" strokeWidth={1.6} />
+          <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-white/5 border border-white/10 mb-5 overflow-hidden p-2">
+            <img src="/logo.jpg" alt="EG Legend" className="h-full w-full object-contain" />
           </div>
           <span className="block font-display text-4xl text-white tracking-tight">EG Legend</span>
           <span className="block text-[11px] uppercase tracking-[0.28em] text-white/40 mt-2">
