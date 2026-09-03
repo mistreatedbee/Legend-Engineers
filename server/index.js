@@ -3,282 +3,76 @@ import express from 'express';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import OpenAI from 'openai';
-import nodemailer from 'nodemailer';
-import { pool } from './db.js';
-import { parseMultipartForm } from '../api/_lib/multipart.js';
-import { escapeHtml, validateCareerApplication } from '../api/_lib/validate.js';
+import { ensureSchema } from '../api/_lib/db.js';
 
-const mailer = process.env.EMAIL_USER
-  ? nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
-    })
-  : null;
+// Public API handlers
+import healthHandler from '../api/health.js';
+import chatHandler from '../api/chat.js';
+import bookingsHandler from '../api/bookings.js';
+import quotesHandler from '../api/quotes.js';
+import careerApplicationsHandler from '../api/career-applications.js';
+import careersHandler from '../api/careers.js';
+import projectsHandler from '../api/projects.js';
 
-function rowHtml(label, value) {
-  return `<tr><td style="padding:6px 12px;font-weight:600;background:#f5f5f5;white-space:nowrap">${label}</td><td style="padding:6px 12px">${value || '—'}</td></tr>`;
-}
-
-async function sendMail(subject, htmlRows, attachments = []) {
-  if (!mailer) return;
-  try {
-    await mailer.sendMail({
-      from: `"Legend Engineers Website" <${process.env.EMAIL_USER}>`,
-      to: 'enerdgegroup@gmail.com',
-      cc: 'egengineers88@gmail.com',
-      subject,
-      html: `<table style="font-family:sans-serif;font-size:14px;border-collapse:collapse;width:100%">${htmlRows}</table>`,
-      attachments,
-    });
-  } catch (err) {
-    console.error('Email send error:', err.message);
-  }
-}
-
-const openai = new OpenAI({
-  baseURL: 'https://openrouter.ai/api/v1',
-  apiKey: process.env.OPENROUTER_API_KEY,
-  defaultHeaders: {
-    'HTTP-Referer': 'https://legendengineers.co.za',
-    'X-Title': 'Legend Engineers',
-  },
-});
+// Admin API handlers
+import adminLoginHandler from '../api/admin/login.js';
+import adminLogoutHandler from '../api/admin/logout.js';
+import adminAccountHandler from '../api/admin/account.js';
+import adminDashboardHandler from '../api/admin/dashboard.js';
+import adminProjectsHandler from '../api/admin/projects.js';
+import adminProjectHandler from '../api/admin/project.js';
+import adminJobsHandler from '../api/admin/jobs.js';
+import adminJobHandler from '../api/admin/job.js';
+import adminApplicationsHandler from '../api/admin/applications.js';
+import adminApplicationHandler from '../api/admin/application.js';
+import adminQueriesHandler from '../api/admin/queries.js';
+import adminSettingsHandler from '../api/admin/settings.js';
+import adminMediaHandler from '../api/admin/media.js';
+import adminUploadHandler from '../api/admin/upload.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 
 app.use(cors());
+// express.json() only parses requests whose Content-Type is application/json,
+// so the two multipart routes (career-applications, admin/upload) pass through
+// untouched for their own busboy-based parsing — matching Vercel's per-route
+// `bodyParser: false` behaviour without any special-casing here.
 app.use(express.json());
 
-// Create tables on startup (idempotent — safe to run every time)
-await pool.query(`
-  CREATE TABLE IF NOT EXISTS booking_requests (
-    id            SERIAL PRIMARY KEY,
-    full_name     TEXT NOT NULL,
-    company       TEXT,
-    email         TEXT NOT NULL,
-    phone         TEXT NOT NULL,
-    service       TEXT NOT NULL,
-    preferred_date DATE,
-    location      TEXT NOT NULL,
-    gps_coordinates TEXT,
-    urgency       TEXT,
-    site_area     TEXT,
-    description   TEXT,
-    created_at    TIMESTAMPTZ DEFAULT NOW()
-  );
+// Every handler below is the exact same Vercel serverless function used in
+// production (api/**/*.js) — Express's (req, res) are a superset of the
+// Node http primitives those handlers expect, so they run unmodified. This
+// keeps local dev and production identical and avoids maintaining a second,
+// divergent copy of any route.
+function route(handler) {
+  return (req, res) => handler(req, res);
+}
 
-  CREATE TABLE IF NOT EXISTS quote_requests (
-    id            SERIAL PRIMARY KEY,
-    name          TEXT NOT NULL,
-    email         TEXT NOT NULL,
-    service_type  TEXT NOT NULL,
-    scope         TEXT,
-    notes         TEXT,
-    created_at    TIMESTAMPTZ DEFAULT NOW()
-  );
-`);
+// Public routes
+app.all('/api/health', route(healthHandler));
+app.all('/api/chat', route(chatHandler));
+app.all('/api/bookings', route(bookingsHandler));
+app.all('/api/quotes', route(quotesHandler));
+app.all('/api/career-applications', route(careerApplicationsHandler));
+app.all('/api/careers', route(careersHandler));
+app.all('/api/projects', route(projectsHandler));
 
-await pool.query(`
-  ALTER TABLE quote_requests
-    ADD COLUMN IF NOT EXISTS company TEXT,
-    ADD COLUMN IF NOT EXISTS phone TEXT,
-    ADD COLUMN IF NOT EXISTS location TEXT,
-    ADD COLUMN IF NOT EXISTS gps_coordinates TEXT;
-
-  ALTER TABLE booking_requests
-    ADD COLUMN IF NOT EXISTS notes TEXT;
-
-  CREATE TABLE IF NOT EXISTS career_applications (
-    id           SERIAL PRIMARY KEY,
-    full_name    TEXT NOT NULL,
-    email        TEXT NOT NULL,
-    phone        TEXT NOT NULL,
-    position     TEXT NOT NULL,
-    location     TEXT,
-    experience   TEXT,
-    linkedin     TEXT,
-    cover_letter TEXT NOT NULL,
-    cv_filename  TEXT,
-    created_at   TIMESTAMPTZ DEFAULT NOW()
-  );
-`);
-
-console.log('Database tables ready.');
-
-// POST /api/bookings — save investigation booking
-app.post('/api/bookings', async (req, res) => {
-  try {
-    const {
-      fullName, company, email, phone, service,
-      preferredDate, location, gps, urgency, siteArea, description, notes,
-    } = req.body;
-
-    await pool.query(
-      `INSERT INTO booking_requests
-        (full_name, company, email, phone, service, preferred_date,
-         location, gps_coordinates, urgency, site_area, description, notes)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`,
-      [
-        fullName, company || null, email, phone, service,
-        preferredDate || null, location, gps || null,
-        urgency || null, siteArea || null, description || null, notes || null,
-      ]
-    );
-
-    await sendMail(
-      `[New Booking] ${fullName} — ${service}`,
-      [
-        rowHtml('Full Name', fullName),
-        rowHtml('Company', company),
-        rowHtml('Email', email),
-        rowHtml('Phone', phone),
-        rowHtml('Service', service),
-        rowHtml('Preferred Date', preferredDate),
-        rowHtml('Location', location),
-        rowHtml('GPS Coordinates', gps),
-        rowHtml('Urgency', urgency),
-        rowHtml('Site Area', siteArea),
-        rowHtml('Description', description),
-        rowHtml('Additional Notes', notes),
-      ].join('')
-    );
-
-    res.json({ ok: true });
-  } catch (err) {
-    console.error('Booking insert error:', err.message);
-    res.status(500).json({ ok: false, error: 'Failed to save booking.' });
-  }
-});
-
-// POST /api/quotes — save quotation request
-app.post('/api/quotes', async (req, res) => {
-  try {
-    const { name, company, email, phone, serviceType, location, gps, scope, notes } = req.body;
-
-    await pool.query(
-      `INSERT INTO quote_requests
-        (name, company, email, phone, service_type, location, gps_coordinates, scope, notes)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
-      [name, company || null, email, phone || null, serviceType, location || null, gps || null, scope || null, notes || null]
-    );
-
-    await sendMail(
-      `[New Quote] ${name} — ${serviceType}`,
-      [
-        rowHtml('Name', name),
-        rowHtml('Company', company),
-        rowHtml('Email', email),
-        rowHtml('Phone', phone),
-        rowHtml('Service', serviceType),
-        rowHtml('Location', location),
-        rowHtml('GPS Coordinates', gps),
-        rowHtml('Project Scope', scope),
-        rowHtml('Additional Notes', notes),
-      ].join('')
-    );
-
-    res.json({ ok: true });
-  } catch (err) {
-    console.error('Quote insert error:', err.message);
-    res.status(500).json({ ok: false, error: 'Failed to save quote request.' });
-  }
-});
-
-// POST /api/career-applications — job application with CV attachment
-app.post('/api/career-applications', async (req, res) => {
-  try {
-    const { fields, file, fileTooLarge } = await parseMultipartForm(req);
-
-    if (fileTooLarge) {
-      return res.status(400).json({ ok: false, error: 'CV file exceeds the 5 MB limit.' });
-    }
-
-    const validation = validateCareerApplication(fields, file);
-
-    if (validation.honeypot) {
-      return res.json({ ok: true });
-    }
-
-    if (!validation.ok) {
-      return res.status(400).json({ ok: false, error: validation.errors[0] });
-    }
-
-    const { fullName, email, phone, position, location, coverLetter, linkedIn, experience } =
-      validation.data;
-
-    await pool.query(
-      `INSERT INTO career_applications
-         (full_name, email, phone, position, location, experience, linkedin, cover_letter, cv_filename)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
-      [
-        fullName,
-        email,
-        phone,
-        position,
-        location || null,
-        experience || null,
-        linkedIn || null,
-        coverLetter,
-        file?.filename || null,
-      ]
-    );
-
-    const subject = `JOB APPLICATION - ${position} - ${fullName}`;
-    const htmlRows = [
-      rowHtml('Applicant', escapeHtml(fullName)),
-      rowHtml('Email', escapeHtml(email)),
-      rowHtml('Phone', escapeHtml(phone)),
-      rowHtml('Position', escapeHtml(position)),
-      rowHtml('Location', escapeHtml(location)),
-      rowHtml('Experience', escapeHtml(experience)),
-      rowHtml('LinkedIn', linkedIn ? escapeHtml(linkedIn) : '—'),
-      rowHtml('Cover Letter', escapeHtml(coverLetter).replace(/\n/g, '<br>')),
-    ].join('');
-
-    const attachments = file
-      ? [{ filename: file.filename, content: file.buffer, contentType: file.mimeType }]
-      : [];
-
-    await sendMail(subject, htmlRows, attachments);
-
-    res.json({ ok: true });
-  } catch (err) {
-    console.error('Career application error:', err.message);
-    res.status(500).json({ ok: false, error: 'Failed to submit application.' });
-  }
-});
-
-// POST /api/chat — AI assistant
-app.post('/api/chat', async (req, res) => {
-  try {
-    const { messages } = req.body;
-    if (!Array.isArray(messages) || messages.length === 0) {
-      return res.status(400).json({ error: 'messages array required' });
-    }
-
-    const completion = await openai.chat.completions.create({
-      model: 'anthropic/claude-3.5-haiku',
-      messages: [
-        {
-          role: 'system',
-          content: `You are a professional assistant for Legend Engineers, an engineering firm based in Mpumalanga, South Africa, operating under the Enerdge Group. The company specialises in Geotechnical Investigations, Civil Engineering, and Mechanical Engineering. Major clients include Eskom Holdings and Seriti Resources. Be concise, professional, and helpful. For quotes or site bookings, direct users to the booking and quote forms on the website.`,
-        },
-        ...messages,
-      ],
-    });
-
-    const reply = completion.choices[0]?.message?.content ?? 'I was unable to generate a response. Please try again.';
-    res.json({ reply });
-  } catch (err) {
-    console.error('Chat error:', err.message);
-    res.status(500).json({ error: 'AI service unavailable. Please try again shortly.' });
-  }
-});
-
-// Health check
-app.get('/api/health', (_req, res) => res.json({ ok: true }));
+// Admin routes
+app.all('/api/admin/login', route(adminLoginHandler));
+app.all('/api/admin/logout', route(adminLogoutHandler));
+app.all('/api/admin/account', route(adminAccountHandler));
+app.all('/api/admin/dashboard', route(adminDashboardHandler));
+app.all('/api/admin/projects', route(adminProjectsHandler));
+app.all('/api/admin/project', route(adminProjectHandler));
+app.all('/api/admin/jobs', route(adminJobsHandler));
+app.all('/api/admin/job', route(adminJobHandler));
+app.all('/api/admin/applications', route(adminApplicationsHandler));
+app.all('/api/admin/application', route(adminApplicationHandler));
+app.all('/api/admin/queries', route(adminQueriesHandler));
+app.all('/api/admin/settings', route(adminSettingsHandler));
+app.all('/api/admin/media', route(adminMediaHandler));
+app.all('/api/admin/upload', route(adminUploadHandler));
 
 // Serve built React app in production
 app.use(express.static(path.join(__dirname, '../dist')));
@@ -287,4 +81,12 @@ app.get('*', (_req, res) =>
 );
 
 const PORT = process.env.PORT || 3001;
+
+try {
+  await ensureSchema();
+  console.log('Database schema ready.');
+} catch (err) {
+  console.error('Database schema check failed:', err.message);
+}
+
 app.listen(PORT, () => console.log(`API server running on http://localhost:${PORT}`));

@@ -27,6 +27,27 @@ export function ProjectDetail({ project, onBack }: ProjectDetailProps) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
+  // Best-effort per-project SEO for this client-rendered page: update the
+  // document title/description while it's open, restore on close. Search
+  // engines that execute JS (and social re-shares of the /projects/<slug>
+  // URL) pick this up; crawlers that don't run JS still get the SPA shell —
+  // full server-rendered meta tags would need SSR, which this site doesn't have.
+  useEffect(() => {
+    const prevTitle = document.title;
+    const description = document.querySelector('meta[name="description"]');
+    const prevDescription = description?.getAttribute('content') ?? '';
+
+    document.title = `${project.title} — ${project.company}`;
+    if (description) {
+      description.setAttribute('content', project.description.slice(0, 160));
+    }
+
+    return () => {
+      document.title = prevTitle;
+      if (description) description.setAttribute('content', prevDescription);
+    };
+  }, [project]);
+
   const companyShort =
     project.company === 'Legend Engineers (PTY) LTD' ? 'Legend Engineers' : 'Enerdge Group';
 

@@ -17,6 +17,12 @@ dist
 dist-ssr
 *.local
 
+# Local Claude Code tooling config — not part of the app
+.claude
+.agents
+.mcp.json
+skills-lock.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

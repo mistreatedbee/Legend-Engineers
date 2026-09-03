@@ -35,12 +35,26 @@ export default async function handler(req, res) {
     const { fullName, email, phone, position, location, coverLetter, linkedIn, experience } =
       validation.data;
 
+    let cvStoragePath = null;
+    let cvUrl = null;
+    if (file) {
+      try {
+        const { uploadCvFile } = await import('./_lib/storage.js');
+        const uploaded = await uploadCvFile(file);
+        cvStoragePath = uploaded.path;
+        cvUrl = uploaded.publicUrl;
+      } catch (storageErr) {
+        console.error('CV storage error:', storageErr.message);
+      }
+    }
+
     const saveToDb = (async () => {
       await ensureSchema();
       await pool.query(
         `INSERT INTO career_applications
-           (full_name, email, phone, position, location, experience, linkedin, cover_letter, cv_filename)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+           (full_name, email, phone, position, location, experience, linkedin, cover_letter,
+            cv_filename, cv_storage_path, cv_url, status)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,'new')`,
         [
           fullName,
           email,
@@ -51,11 +65,13 @@ export default async function handler(req, res) {
           linkedIn || null,
           coverLetter,
           file?.filename || null,
+          cvStoragePath,
+          cvUrl,
         ]
       );
     })();
 
-    const subject = `JOB APPLICATION - ${position} - ${fullName}`;
+    const subject = `NEW JOB APPLICATION - ${position} - ${fullName}`;
     const htmlRows = [
       rowHtml('Applicant', escapeHtml(fullName)),
       rowHtml('Email', escapeHtml(email)),

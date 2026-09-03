@@ -361,7 +361,32 @@ function ApplicationModal({
 
 export function Careers() {
   const [selectedOpening, setSelectedOpening] = useState<CareerOpening | null>(null);
-  const openListings = careerOpenings.filter((o) => o.status === 'Open');
+  const [openListings, setOpenListings] = useState(
+    careerOpenings.filter((o) => o.status === 'Open')
+  );
+
+  useEffect(() => {
+    fetch('/api/careers')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.ok && Array.isArray(data.jobs) && data.jobs.length) {
+          setOpenListings(
+            data.jobs.map((job: CareerOpening & { type?: string }) => ({
+              id: String(job.id),
+              title: job.title,
+              department: job.department || '',
+              location: job.location,
+              type: job.type || 'Full-time',
+              description: job.description,
+              requirements: job.requirements || [],
+              closingDate: job.closingDate,
+              status: 'Open' as const,
+            }))
+          );
+        }
+      })
+      .catch(() => undefined);
+  }, []);
 
   return (
     <>

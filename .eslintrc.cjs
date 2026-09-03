@@ -15,4 +15,11 @@ module.exports = {
       { allowConstantExport: true },
     ],
   },
+  overrides: [
+    {
+      // Serverless functions and the local dev server run in Node, not the browser.
+      files: ['api/**/*.js', 'server/**/*.js'],
+      env: { node: true, browser: false, es2020: true },
+    },
+  ],
 }

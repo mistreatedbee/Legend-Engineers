@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Lock } from 'lucide-react';
 export function Footer() {
   return (
     <footer
@@ -210,6 +212,17 @@ export function Footer() {
               className="eyebrow text-ink/40 dark:text-white/40 hover:text-brand-700 dark:hover:text-brand-400">
               Terms
             </a>
+            {/* Staff-only access — intentionally unlabeled so it doesn't invite
+                public attention; the route itself is what's actually protected
+                (login + noindex), this is just discretion in the UI. */}
+            <Link
+              to="/admin"
+              aria-label="Staff login"
+              title="Staff login"
+              rel="nofollow"
+              className="text-ink/15 dark:text-white/15 hover:text-brand-700 dark:hover:text-brand-400 transition-colors">
+              <Lock size={13} />
+            </Link>
           </div>
         </div>
 
