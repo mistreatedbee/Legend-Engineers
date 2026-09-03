@@ -1,6 +1,7 @@
 import { pool, ensureSchema } from '../db.js';
 import { assertSameOrigin, requireAdmin } from '../auth.js';
 import { uniqueSlug } from '../slug.js';
+import { importLegacyJobs } from '../legacyJobs.js';
 
 export default async function handler(req, res) {
   const admin = await requireAdmin(req, res);
@@ -28,6 +29,12 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     if (!assertSameOrigin(req)) return res.status(403).json({ ok: false, error: 'Invalid origin' });
+
+    if (req.body?.action === 'import-legacy') {
+      const imported = await importLegacyJobs(pool, admin.id);
+      return res.status(200).json({ ok: true, imported });
+    }
+
     const body = req.body || {};
     if (!body.title || !body.location || !body.employmentType || !body.description) {
       return res.status(400).json({ ok: false, error: 'Required job fields are missing.' });

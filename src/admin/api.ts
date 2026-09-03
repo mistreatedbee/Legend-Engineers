@@ -202,6 +202,9 @@ export const listJobs = (params: Record<string, string> = {}) => adminFetch(`/jo
 export const createJob = (body: Record<string, any>) =>
   adminFetch('/jobs', { method: 'POST', body: JSON.stringify(body) });
 
+export const importLegacyJobs = () =>
+  adminFetch('/jobs', { method: 'POST', body: JSON.stringify({ action: 'import-legacy' }) });
+
 export const getJob = (id: number | string) => adminFetch(`/job?id=${id}`);
 
 export const updateJob = (id: number | string, body: Record<string, any>) =>

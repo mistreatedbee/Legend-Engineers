@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { PlusSquare, Search, Pencil, Trash2, PauseCircle, PlayCircle, Archive } from 'lucide-react';
+import { PlusSquare, Search, Pencil, Trash2, PauseCircle, PlayCircle, Archive, UploadCloud } from 'lucide-react';
 import * as api from '../../api';
 import { PageHeader, Button, Input, Select, Spinner, StatusBadge, EmptyState, CardTable } from '../../components/ui';
 import { useNotify } from '../../components/Notify';
@@ -96,6 +96,16 @@ export function JobsList() {
     }
   };
 
+  const importLegacy = async () => {
+    try {
+      const res = await api.importLegacyJobs();
+      notify(`Imported ${res.imported} existing job${res.imported === 1 ? '' : 's'} from the website.`);
+      load();
+    } catch (err: any) {
+      notify(err.message || 'Could not import existing jobs.', 'error');
+    }
+  };
+
   return (
     <div>
       <PageHeader
@@ -131,13 +141,18 @@ export function JobsList() {
       ) : !jobs?.length ? (
         <EmptyState
           title="No jobs yet"
-          description="Post your first vacancy to have it appear on the public Careers section."
+          description="Add a new vacancy, or bring in the vacancies already listed on the website so they become editable here."
           action={
-            <Link to="/admin/jobs/new">
-              <Button>
-                <PlusSquare size={16} /> Post New Job
+            <div className="flex flex-wrap justify-center gap-3">
+              <Link to="/admin/jobs/new">
+                <Button>
+                  <PlusSquare size={16} /> Post New Job
+                </Button>
+              </Link>
+              <Button variant="secondary" onClick={importLegacy}>
+                <UploadCloud size={16} /> Import existing jobs
               </Button>
-            </Link>
+            </div>
           }
         />
       ) : (
