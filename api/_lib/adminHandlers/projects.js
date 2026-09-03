@@ -1,7 +1,7 @@
-import { pool, ensureSchema } from '../_lib/db.js';
-import { assertSameOrigin, requireAdmin } from '../_lib/auth.js';
-import { uniqueSlug } from '../_lib/slug.js';
-import { importLegacyProjects } from '../_lib/projects.js';
+import { pool, ensureSchema } from '../db.js';
+import { assertSameOrigin, requireAdmin } from '../auth.js';
+import { uniqueSlug } from '../slug.js';
+import { importLegacyProjects } from '../projects.js';
 
 function buildProjectFilters(query) {
   const where = ['p.deleted_at IS NULL'];

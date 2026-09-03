@@ -14,20 +14,11 @@ import careerApplicationsHandler from '../api/career-applications.js';
 import careersHandler from '../api/careers.js';
 import projectsHandler from '../api/projects.js';
 
-// Admin API handlers
-import adminLoginHandler from '../api/admin/login.js';
-import adminLogoutHandler from '../api/admin/logout.js';
-import adminAccountHandler from '../api/admin/account.js';
-import adminDashboardHandler from '../api/admin/dashboard.js';
-import adminProjectsHandler from '../api/admin/projects.js';
-import adminProjectHandler from '../api/admin/project.js';
-import adminJobsHandler from '../api/admin/jobs.js';
-import adminJobHandler from '../api/admin/job.js';
-import adminApplicationsHandler from '../api/admin/applications.js';
-import adminApplicationHandler from '../api/admin/application.js';
-import adminQueriesHandler from '../api/admin/queries.js';
-import adminSettingsHandler from '../api/admin/settings.js';
-import adminMediaHandler from '../api/admin/media.js';
+// Admin API handlers — same route map the api/admin/[...path].js catch-all
+// function uses on Vercel (kept as one function there to stay under the
+// Hobby plan's 12-function limit); upload.js stays its own route since it
+// needs raw-body multipart parsing.
+import { adminRoutes } from '../api/_lib/adminRoutes.js';
 import adminUploadHandler from '../api/admin/upload.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -59,19 +50,9 @@ app.all('/api/careers', route(careersHandler));
 app.all('/api/projects', route(projectsHandler));
 
 // Admin routes
-app.all('/api/admin/login', route(adminLoginHandler));
-app.all('/api/admin/logout', route(adminLogoutHandler));
-app.all('/api/admin/account', route(adminAccountHandler));
-app.all('/api/admin/dashboard', route(adminDashboardHandler));
-app.all('/api/admin/projects', route(adminProjectsHandler));
-app.all('/api/admin/project', route(adminProjectHandler));
-app.all('/api/admin/jobs', route(adminJobsHandler));
-app.all('/api/admin/job', route(adminJobHandler));
-app.all('/api/admin/applications', route(adminApplicationsHandler));
-app.all('/api/admin/application', route(adminApplicationHandler));
-app.all('/api/admin/queries', route(adminQueriesHandler));
-app.all('/api/admin/settings', route(adminSettingsHandler));
-app.all('/api/admin/media', route(adminMediaHandler));
+for (const [name, handler] of Object.entries(adminRoutes)) {
+  app.all(`/api/admin/${name}`, route(handler));
+}
 app.all('/api/admin/upload', route(adminUploadHandler));
 
 // Serve built React app in production

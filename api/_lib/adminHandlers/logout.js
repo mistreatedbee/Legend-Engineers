@@ -1,4 +1,4 @@
-import { assertSameOrigin, clearSessionCookie } from '../_lib/auth.js';
+import { assertSameOrigin, clearSessionCookie } from '../auth.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {

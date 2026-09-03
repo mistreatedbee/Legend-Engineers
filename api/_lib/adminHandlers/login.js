@@ -1,4 +1,4 @@
-import { pool } from '../_lib/db.js';
+import { pool } from '../db.js';
 import {
   assertSameOrigin,
   checkLoginRateLimit,
@@ -8,7 +8,7 @@ import {
   setSessionCookie,
   signToken,
   verifyPassword,
-} from '../_lib/auth.js';
+} from '../auth.js';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {

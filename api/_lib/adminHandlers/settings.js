@@ -1,5 +1,5 @@
-import { pool, ensureSchema } from '../_lib/db.js';
-import { assertSameOrigin, requireAdmin } from '../_lib/auth.js';
+import { pool, ensureSchema } from '../db.js';
+import { assertSameOrigin, requireAdmin } from '../auth.js';
 
 const DEFAULT_SETTINGS = {
   companyName: 'Enerdge Group / Legend Engineers',
