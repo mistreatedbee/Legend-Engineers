@@ -2,10 +2,11 @@ import { parseMultipartForm } from '../_lib/multipart.js';
 import { requireAdmin } from '../_lib/auth.js';
 import { pool, ensureSchema } from '../_lib/db.js';
 import { uploadImageFile, storageConfigured } from '../_lib/storage.js';
+import { withErrorHandling } from '../_lib/withErrorHandling.js';
 
 export const config = { api: { bodyParser: false } };
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   const admin = await requireAdmin(req, res);
   if (!admin) return;
 
@@ -50,3 +51,5 @@ export default async function handler(req, res) {
     return res.status(500).json({ ok: false, error: err.message || 'Upload failed.' });
   }
 }
+
+export default withErrorHandling(handler);
