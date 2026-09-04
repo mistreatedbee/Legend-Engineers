@@ -281,7 +281,7 @@ export function ProjectForm() {
               <input
                 ref={coverInputRef}
                 type="file"
-                accept="image/jpeg,image/png,image/webp,image/jpg"
+                accept="image/jpeg,image/png,image/webp,image/jpg,image/heic,image/heif,.heic,.heif"
                 className="hidden"
                 onChange={(e) => onCoverPick(e.target.files?.[0])}
               />
@@ -293,7 +293,7 @@ export function ProjectForm() {
                 onClick={() => coverInputRef.current?.click()}>
                 {coverUploading ? 'Uploading…' : cover ? 'Replace cover image' : 'Upload cover image'}
               </Button>
-              <p className="text-xs text-ink/40 mt-2">JPG, PNG or WEBP, up to 8 MB.</p>
+              <p className="text-xs text-ink/40 mt-2">JPG, PNG, WEBP, or an iPhone HEIC photo — up to 15 MB.</p>
             </div>
           </div>
         </Field>
@@ -341,7 +341,7 @@ export function ProjectForm() {
           <input
             ref={galleryInputRef}
             type="file"
-            accept="image/jpeg,image/png,image/webp,image/jpg"
+            accept="image/jpeg,image/png,image/webp,image/jpg,image/heic,image/heif,.heic,.heif"
             multiple
             className="hidden"
             onChange={(e) => onGalleryPick(e.target.files)}

@@ -99,7 +99,7 @@ export function Media() {
             <input
               ref={fileRef}
               type="file"
-              accept="image/jpeg,image/png,image/webp,image/jpg"
+              accept="image/jpeg,image/png,image/webp,image/jpg,image/heic,image/heif,.heic,.heif"
               multiple
               className="hidden"
               onChange={(e) => onUpload(e.target.files)}

@@ -1,7 +1,10 @@
 import Busboy from 'busboy';
 import { MAX_CV_BYTES, sanitizeFilename } from './validate.js';
 
-export function parseMultipartForm(req) {
+// maxBytes defaults to the CV limit (5MB) for backwards compatibility —
+// pass a larger one for image uploads (previously this was silently
+// hardcoded to 5MB for images too, well under the documented 8MB limit).
+export function parseMultipartForm(req, maxBytes = MAX_CV_BYTES) {
   return new Promise((resolve, reject) => {
     const fields = {};
     let file = null;
@@ -9,7 +12,7 @@ export function parseMultipartForm(req) {
 
     const bb = Busboy({
       headers: req.headers,
-      limits: { files: 1, fileSize: MAX_CV_BYTES },
+      limits: { files: 1, fileSize: maxBytes },
     });
 
     bb.on('field', (name, val) => {
@@ -22,7 +25,7 @@ export function parseMultipartForm(req) {
 
       stream.on('data', (chunk) => {
         size += chunk.length;
-        if (size > MAX_CV_BYTES) {
+        if (size > maxBytes) {
           fileTooLarge = true;
           stream.resume();
           return;

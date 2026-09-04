@@ -1,9 +1,21 @@
 import { randomBytes } from 'crypto';
 import { sanitizeFilename } from './validate.js';
+import { processImage } from './imageProcessing.js';
 
 const BUCKET = process.env.SUPABASE_STORAGE_BUCKET || 'media';
-const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
-const ALLOWED_IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/jpg']);
+// Raw phone photos (including HEIC, which is often larger before we
+// recompress it) can run several MB — this is the *input* ceiling, before
+// processImage() resizes/recompresses down to a small WebP for storage.
+export const MAX_IMAGE_INPUT_BYTES = 15 * 1024 * 1024;
+const ALLOWED_IMAGE_TYPES = new Set([
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'image/jpg',
+  'image/heic',
+  'image/heif',
+]);
+const ALLOWED_IMAGE_EXT = /\.(jpe?g|png|webp|heic|heif)$/i;
 
 function getSupabaseConfig() {
   const url = process.env.SUPABASE_URL;
@@ -46,14 +58,25 @@ export async function uploadBuffer({ buffer, filename, mimeType, folder = 'uploa
 
 export async function uploadImageFile(file, folder = 'projects') {
   if (!file?.buffer?.length) throw new Error('No file provided');
-  if (file.buffer.length > MAX_IMAGE_BYTES) throw new Error('Image exceeds 8 MB limit');
-  if (!ALLOWED_IMAGE_TYPES.has(file.mimeType) && !/\.(jpe?g|png|webp)$/i.test(file.filename)) {
-    throw new Error('Only JPG, PNG, and WEBP images are allowed');
+  if (file.buffer.length > MAX_IMAGE_INPUT_BYTES) throw new Error('Image exceeds 15 MB limit');
+  if (!ALLOWED_IMAGE_TYPES.has(file.mimeType) && !ALLOWED_IMAGE_EXT.test(file.filename)) {
+    throw new Error('Only JPG, PNG, WEBP, and HEIC/HEIF (iPhone photo) images are allowed');
   }
+
+  // Normalize everything — including HEIC/HEIF, which most browsers can't
+  // display at all — into a compressed, web-safe WebP before it's stored.
+  let processed;
+  try {
+    processed = await processImage(file);
+  } catch (err) {
+    console.error('Image processing error:', err.message);
+    throw new Error('That image could not be processed. Please try a different photo or format (JPG/PNG/WEBP).');
+  }
+
   return uploadBuffer({
-    buffer: file.buffer,
-    filename: file.filename,
-    mimeType: file.mimeType,
+    buffer: processed.buffer,
+    filename: processed.filename,
+    mimeType: processed.mimeType,
     folder,
   });
 }

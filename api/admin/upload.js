@@ -1,7 +1,7 @@
 import { parseMultipartForm } from '../_lib/multipart.js';
 import { requireAdmin } from '../_lib/auth.js';
 import { pool, ensureSchema } from '../_lib/db.js';
-import { uploadImageFile, storageConfigured } from '../_lib/storage.js';
+import { uploadImageFile, storageConfigured, MAX_IMAGE_INPUT_BYTES } from '../_lib/storage.js';
 import { withErrorHandling } from '../_lib/withErrorHandling.js';
 
 export const config = { api: { bodyParser: false } };
@@ -24,8 +24,8 @@ async function handler(req, res) {
 
   try {
     await ensureSchema();
-    const { fields, file, fileTooLarge } = await parseMultipartForm(req);
-    if (fileTooLarge) return res.status(400).json({ ok: false, error: 'File exceeds size limit.' });
+    const { fields, file, fileTooLarge } = await parseMultipartForm(req, MAX_IMAGE_INPUT_BYTES);
+    if (fileTooLarge) return res.status(400).json({ ok: false, error: 'File exceeds the 15 MB limit.' });
     if (!file) return res.status(400).json({ ok: false, error: 'No file uploaded.' });
 
     const folder = fields.folder || 'media';
