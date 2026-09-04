@@ -1,5 +1,5 @@
 import { pool, ensureSchema } from './_lib/db.js';
-import { sendMail, rowHtml } from './_lib/mail.js';
+import { sendMail, sendConfirmation, rowHtml } from './_lib/mail.js';
 import { parseMultipartForm } from './_lib/multipart.js';
 import { escapeHtml, validateCareerApplication } from './_lib/validate.js';
 
@@ -88,12 +88,16 @@ export default async function handler(req, res) {
       : [];
 
     const notify = sendMail(subject, htmlRows, attachments);
+    const confirm = sendConfirmation(email, fullName, 'application', position);
 
-    const [db, mail] = await Promise.allSettled([saveToDb, notify]);
+    const [db, mail, conf] = await Promise.allSettled([saveToDb, notify, confirm]);
 
     if (db.status === 'rejected') console.error('Career application DB error:', db.reason?.message);
     if (mail.status === 'rejected') {
       console.error('Career application email error:', mail.reason?.message);
+    }
+    if (conf.status === 'rejected') {
+      console.error('Career application confirmation email error:', conf.reason?.message);
     }
 
     if (db.status === 'fulfilled' || mail.status === 'fulfilled') {

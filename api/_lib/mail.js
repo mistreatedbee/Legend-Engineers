@@ -29,15 +29,22 @@ export async function sendMail(subject, htmlRows, attachments = []) {
   });
 }
 
-export async function sendConfirmation(clientEmail, clientName, type) {
+export async function sendConfirmation(clientEmail, clientName, type, extra) {
   if (!mailer) return; // silently skip — confirmation is best-effort
   const from = process.env.EMAIL_FROM ?? 'Legend Engineers <onboarding@resend.dev>';
 
-  const isQuote = type === 'quote';
-  const heading = isQuote ? 'Your quotation request is on its way!' : 'Your site visit request has been received!';
-  const body = isQuote
-    ? `Thank you for reaching out, <strong>${clientName}</strong>. We've received your quotation request and our team will review it and get back to you shortly with a detailed quote.`
-    : `Thank you for reaching out, <strong>${clientName}</strong>. We've received your site visit booking request and our team will be in touch shortly to confirm the details.`;
+  const heading =
+    type === 'quote'
+      ? 'Your quotation request is on its way!'
+      : type === 'application'
+        ? 'Your application has been received!'
+        : 'Your site visit request has been received!';
+  const body =
+    type === 'quote'
+      ? `Thank you for reaching out, <strong>${clientName}</strong>. We've received your quotation request and our team will review it and get back to you shortly with a detailed quote.`
+      : type === 'application'
+        ? `Thank you for applying, <strong>${clientName}</strong>. We've received your application for <strong>${extra || 'the position'}</strong> and our recruitment team will review it. If you're shortlisted, we'll be in touch.`
+        : `Thank you for reaching out, <strong>${clientName}</strong>. We've received your site visit booking request and our team will be in touch shortly to confirm the details.`;
 
   const html = `
     <div style="font-family:sans-serif;max-width:560px;margin:0 auto;color:#1a1a1a">
